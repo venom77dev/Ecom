@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a61fe35dcd666020704b800fd3b3ff1a",
+    "content-hash": "3d488d0fcd04e44d3a49f9b7d3104e69",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -157,16 +157,16 @@
         },
         {
             "name": "bacon/bacon-qr-code",
-            "version": "v3.0.0",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Bacon/BaconQrCode.git",
-                "reference": "510de6eca6248d77d31b339d62437cc995e2fb41"
+                "reference": "36a1cb2b81493fa5b82e50bf8068bf84d1542563"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/510de6eca6248d77d31b339d62437cc995e2fb41",
-                "reference": "510de6eca6248d77d31b339d62437cc995e2fb41",
+                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/36a1cb2b81493fa5b82e50bf8068bf84d1542563",
+                "reference": "36a1cb2b81493fa5b82e50bf8068bf84d1542563",
                 "shasum": ""
             },
             "require": {
@@ -176,8 +176,9 @@
             },
             "require-dev": {
                 "phly/keep-a-changelog": "^2.12",
-                "phpunit/phpunit": "^10.5.11 || 11.0.4",
+                "phpunit/phpunit": "^10.5.11 || ^11.0.4",
                 "spatie/phpunit-snapshot-assertions": "^5.1.5",
+                "spatie/pixelmatch-php": "^1.2.0",
                 "squizlabs/php_codesniffer": "^3.9"
             },
             "suggest": {
@@ -205,9 +206,9 @@
             "homepage": "https://github.com/Bacon/BaconQrCode",
             "support": {
                 "issues": "https://github.com/Bacon/BaconQrCode/issues",
-                "source": "https://github.com/Bacon/BaconQrCode/tree/v3.0.0"
+                "source": "https://github.com/Bacon/BaconQrCode/tree/v3.0.3"
             },
-            "time": "2024-04-18T11:16:25+00:00"
+            "time": "2025-11-19T17:15:36+00:00"
         },
         {
             "name": "barryvdh/laravel-dompdf",
@@ -492,7 +493,7 @@
         },
         {
             "name": "botble/get-started",
-            "version": "dev-master",
+            "version": "dev-trekripple",
             "dist": {
                 "type": "path",
                 "url": "./platform/packages/get-started",
@@ -518,7 +519,7 @@
         },
         {
             "name": "botble/installer",
-            "version": "dev-master",
+            "version": "dev-trekripple",
             "dist": {
                 "type": "path",
                 "url": "./platform/packages/installer",
@@ -547,7 +548,7 @@
         },
         {
             "name": "botble/menu",
-            "version": "dev-master",
+            "version": "dev-trekripple",
             "dist": {
                 "type": "path",
                 "url": "./platform/packages/menu",
@@ -580,7 +581,7 @@
         },
         {
             "name": "botble/optimize",
-            "version": "dev-master",
+            "version": "dev-trekripple",
             "dist": {
                 "type": "path",
                 "url": "./platform/packages/optimize",
@@ -612,7 +613,7 @@
         },
         {
             "name": "botble/page",
-            "version": "dev-master",
+            "version": "dev-trekripple",
             "dist": {
                 "type": "path",
                 "url": "./platform/packages/page",
@@ -642,7 +643,7 @@
         },
         {
             "name": "botble/platform",
-            "version": "dev-master",
+            "version": "dev-trekripple",
             "dist": {
                 "type": "path",
                 "url": "./platform/core",
@@ -748,7 +749,7 @@
         },
         {
             "name": "botble/plugin-management",
-            "version": "dev-master",
+            "version": "dev-trekripple",
             "dist": {
                 "type": "path",
                 "url": "./platform/packages/plugin-management",
@@ -777,7 +778,7 @@
         },
         {
             "name": "botble/revision",
-            "version": "dev-master",
+            "version": "dev-trekripple",
             "dist": {
                 "type": "path",
                 "url": "./platform/packages/revision",
@@ -806,7 +807,7 @@
         },
         {
             "name": "botble/seo-helper",
-            "version": "dev-master",
+            "version": "dev-trekripple",
             "dist": {
                 "type": "path",
                 "url": "./platform/packages/seo-helper",
@@ -839,7 +840,7 @@
         },
         {
             "name": "botble/shortcode",
-            "version": "dev-master",
+            "version": "dev-trekripple",
             "dist": {
                 "type": "path",
                 "url": "./platform/packages/shortcode",
@@ -871,7 +872,7 @@
         },
         {
             "name": "botble/sitemap",
-            "version": "dev-master",
+            "version": "dev-trekripple",
             "dist": {
                 "type": "path",
                 "url": "./platform/packages/sitemap",
@@ -900,7 +901,7 @@
         },
         {
             "name": "botble/slug",
-            "version": "dev-master",
+            "version": "dev-trekripple",
             "dist": {
                 "type": "path",
                 "url": "./platform/packages/slug",
@@ -932,7 +933,7 @@
         },
         {
             "name": "botble/theme",
-            "version": "dev-master",
+            "version": "dev-trekripple",
             "dist": {
                 "type": "path",
                 "url": "./platform/packages/theme",
@@ -973,7 +974,7 @@
         },
         {
             "name": "botble/widget",
-            "version": "dev-master",
+            "version": "dev-trekripple",
             "dist": {
                 "type": "path",
                 "url": "./platform/packages/widget",
@@ -4281,16 +4282,16 @@
         },
         {
             "name": "laravel/socialite",
-            "version": "v5.15.1",
+            "version": "v5.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "cc02625f0bd1f95dc3688eb041cce0f1e709d029"
+                "reference": "40a2dc98c53d9dc6d55eadb0d490d3d72b73f1bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/cc02625f0bd1f95dc3688eb041cce0f1e709d029",
-                "reference": "cc02625f0bd1f95dc3688eb041cce0f1e709d029",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/40a2dc98c53d9dc6d55eadb0d490d3d72b73f1bf",
+                "reference": "40a2dc98c53d9dc6d55eadb0d490d3d72b73f1bf",
                 "shasum": ""
             },
             "require": {
@@ -4312,16 +4313,16 @@
             },
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "5.x-dev"
-                },
                 "laravel": {
-                    "providers": [
-                        "Laravel\\Socialite\\SocialiteServiceProvider"
-                    ],
                     "aliases": {
                         "Socialite": "Laravel\\Socialite\\Facades\\Socialite"
-                    }
+                    },
+                    "providers": [
+                        "Laravel\\Socialite\\SocialiteServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-master": "5.x-dev"
                 }
             },
             "autoload": {
@@ -4349,7 +4350,7 @@
                 "issues": "https://github.com/laravel/socialite/issues",
                 "source": "https://github.com/laravel/socialite"
             },
-            "time": "2024-06-28T20:09:34+00:00"
+            "time": "2024-09-03T09:46:57+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -5402,21 +5403,21 @@
         },
         {
             "name": "mollie/laravel-mollie",
-            "version": "v3.0.0",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mollie/laravel-mollie.git",
-                "reference": "767df6fd742bc379d65fde7207533c66064b6d3f"
+                "reference": "98a89dff9f27d1b41da36e048282516a99271662"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mollie/laravel-mollie/zipball/767df6fd742bc379d65fde7207533c66064b6d3f",
-                "reference": "767df6fd742bc379d65fde7207533c66064b6d3f",
+                "url": "https://api.github.com/repos/mollie/laravel-mollie/zipball/98a89dff9f27d1b41da36e048282516a99271662",
+                "reference": "98a89dff9f27d1b41da36e048282516a99271662",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "illuminate/support": "^10.0|^11.0",
+                "illuminate/support": "^10.0|^11.0|^12.0",
                 "mollie/mollie-api-php": "^2.60",
                 "php": "^8.1|^8.2"
             },
@@ -5424,8 +5425,8 @@
                 "laravel/pint": "^1.1",
                 "laravel/socialite": "^5.5",
                 "mockery/mockery": "^1.4",
-                "orchestra/testbench": "^8.0|^9.0",
-                "phpunit/phpunit": "^10.0"
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.5.3"
             },
             "suggest": {
                 "laravel/socialite": "Use Mollie Connect (OAuth) to authenticate via Laravel Socialite with the Mollie API. This is needed for some endpoints."
@@ -5433,12 +5434,12 @@
             "type": "library",
             "extra": {
                 "laravel": {
-                    "providers": [
-                        "Mollie\\Laravel\\MollieServiceProvider"
-                    ],
                     "aliases": {
                         "Mollie": "Mollie\\Laravel\\Facades\\Mollie"
-                    }
+                    },
+                    "providers": [
+                        "Mollie\\Laravel\\MollieServiceProvider"
+                    ]
                 }
             },
             "autoload": {
@@ -5448,7 +5449,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-2-Clause"
+                "MIT"
             ],
             "authors": [
                 {
@@ -5491,9 +5492,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mollie/laravel-mollie/issues",
-                "source": "https://github.com/mollie/laravel-mollie/tree/v3.0.0"
+                "source": "https://github.com/mollie/laravel-mollie/tree/v3.1.0"
             },
-            "time": "2024-03-17T14:53:00+00:00"
+            "time": "2025-02-19T13:32:59+00:00"
         },
         {
             "name": "mollie/mollie-api-php",
@@ -6562,7 +6563,7 @@
             "support": {
                 "source": "https://github.com/paypal/Checkout-PHP-SDK/tree/1.0.2"
             },
-            "abandoned": true,
+            "abandoned": "paypal/paypal-server-sdk",
             "time": "2021-09-21T20:57:38+00:00"
         },
         {
@@ -6790,16 +6791,16 @@
         },
         {
             "name": "phpseclib/bcmath_compat",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/bcmath_compat.git",
-                "reference": "29bbf07a7039ff65ce7daa44502ba34baf1512ec"
+                "reference": "ae8f87ea0c96b2ef08ecf0d291d45372d0f7bc5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/bcmath_compat/zipball/29bbf07a7039ff65ce7daa44502ba34baf1512ec",
-                "reference": "29bbf07a7039ff65ce7daa44502ba34baf1512ec",
+                "url": "https://api.github.com/repos/phpseclib/bcmath_compat/zipball/ae8f87ea0c96b2ef08ecf0d291d45372d0f7bc5a",
+                "reference": "ae8f87ea0c96b2ef08ecf0d291d45372d0f7bc5a",
                 "shasum": ""
             },
             "require": {
@@ -6848,7 +6849,7 @@
                 "issues": "https://github.com/phpseclib/bcmath_compat/issues",
                 "source": "https://github.com/phpseclib/bcmath_compat"
             },
-            "time": "2024-02-21T10:30:36+00:00"
+            "time": "2024-06-06T14:17:54+00:00"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -7788,16 +7789,16 @@
         },
         {
             "name": "razorpay/razorpay",
-            "version": "2.9.0",
+            "version": "2.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/razorpay/razorpay-php.git",
-                "reference": "a3d7c2bcb416091edd6a76eb5a7600eaf00ac837"
+                "reference": "c5cf59941eb2d888e80371328d932e6e8266d352"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/razorpay/razorpay-php/zipball/a3d7c2bcb416091edd6a76eb5a7600eaf00ac837",
-                "reference": "a3d7c2bcb416091edd6a76eb5a7600eaf00ac837",
+                "url": "https://api.github.com/repos/razorpay/razorpay-php/zipball/c5cf59941eb2d888e80371328d932e6e8266d352",
+                "reference": "c5cf59941eb2d888e80371328d932e6e8266d352",
                 "shasum": ""
             },
             "require": {
@@ -7849,7 +7850,7 @@
                 "issues": "https://github.com/Razorpay/razorpay-php/issues",
                 "source": "https://github.com/Razorpay/razorpay-php"
             },
-            "time": "2023-12-18T04:19:46+00:00"
+            "time": "2025-08-05T07:13:20+00:00"
         },
         {
             "name": "rmccue/requests",
@@ -8232,26 +8233,26 @@
         },
         {
             "name": "spatie/simple-excel",
-            "version": "3.6.0",
+            "version": "3.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/simple-excel.git",
-                "reference": "e2482b20b6d3cce1a3ded3e604c2a598c897f0a3"
+                "reference": "4eb3f397ecd288731568750b6cb400762c78232b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/simple-excel/zipball/e2482b20b6d3cce1a3ded3e604c2a598c897f0a3",
-                "reference": "e2482b20b6d3cce1a3ded3e604c2a598c897f0a3",
+                "url": "https://api.github.com/repos/spatie/simple-excel/zipball/4eb3f397ecd288731568750b6cb400762c78232b",
+                "reference": "4eb3f397ecd288731568750b6cb400762c78232b",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "^9.0|^10.0|^11.0",
+                "illuminate/support": "^9.0|^10.0|^11.0|^12.0",
                 "openspout/openspout": "^4.19",
                 "php": "^8.1"
             },
             "require-dev": {
-                "pestphp/pest-plugin-laravel": "^1.3|^2.3",
-                "phpunit/phpunit": "^9.4|^10.5",
+                "pestphp/pest-plugin-laravel": "^1.3|^2.3|^3.0",
+                "phpunit/phpunit": "^9.4|^10.5|^11.0|^12.0",
                 "spatie/pest-plugin-snapshots": "^1.1|^2.1",
                 "spatie/phpunit-snapshot-assertions": "^4.0|^5.1",
                 "spatie/temporary-directory": "^1.2|^2.2"
@@ -8281,7 +8282,7 @@
                 "spatie"
             ],
             "support": {
-                "source": "https://github.com/spatie/simple-excel/tree/3.6.0"
+                "source": "https://github.com/spatie/simple-excel/tree/3.7.3"
             },
             "funding": [
                 {
@@ -8289,7 +8290,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-04-24T13:41:23+00:00"
+            "time": "2025-06-02T15:03:28+00:00"
         },
         {
             "name": "stripe/stripe-php",
@@ -8352,16 +8353,16 @@
         },
         {
             "name": "symfony/cache",
-            "version": "v6.4.8",
+            "version": "v6.4.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "287142df5579ce223c485b3872df3efae8390984"
+                "reference": "5b088fa41eb9568748dc255c45e4054c387ba73b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/287142df5579ce223c485b3872df3efae8390984",
-                "reference": "287142df5579ce223c485b3872df3efae8390984",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/5b088fa41eb9568748dc255c45e4054c387ba73b",
+                "reference": "5b088fa41eb9568748dc255c45e4054c387ba73b",
                 "shasum": ""
             },
             "require": {
@@ -8428,7 +8429,7 @@
                 "psr6"
             ],
             "support": {
-                "source": "https://github.com/symfony/cache/tree/v6.4.8"
+                "source": "https://github.com/symfony/cache/tree/v6.4.33"
             },
             "funding": [
                 {
@@ -8440,11 +8441,15 @@
                     "type": "github"
                 },
                 {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
                     "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-31T14:49:08+00:00"
+            "time": "2026-01-27T15:05:20+00:00"
         },
         {
             "name": "symfony/cache-contracts",
@@ -11067,16 +11072,16 @@
         },
         {
             "name": "symfony/var-exporter",
-            "version": "v6.4.9",
+            "version": "v6.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-exporter.git",
-                "reference": "f9a060622e0d93777b7f8687ec4860191e16802e"
+                "reference": "466fcac5fa2e871f83d31173f80e9c2684743bfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/f9a060622e0d93777b7f8687ec4860191e16802e",
-                "reference": "f9a060622e0d93777b7f8687ec4860191e16802e",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/466fcac5fa2e871f83d31173f80e9c2684743bfc",
+                "reference": "466fcac5fa2e871f83d31173f80e9c2684743bfc",
                 "shasum": ""
             },
             "require": {
@@ -11124,7 +11129,7 @@
                 "serialize"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-exporter/tree/v6.4.9"
+                "source": "https://github.com/symfony/var-exporter/tree/v6.4.26"
             },
             "funding": [
                 {
@@ -11136,11 +11141,15 @@
                     "type": "github"
                 },
                 {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
                     "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-24T15:53:56+00:00"
+            "time": "2025-09-11T09:57:09+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -11442,12 +11451,12 @@
             "type": "library",
             "extra": {
                 "laravel": {
-                    "providers": [
-                        "Unicodeveloper\\Paystack\\PaystackServiceProvider"
-                    ],
                     "aliases": {
                         "Paystack": "Unicodeveloper\\Paystack\\Facades\\Paystack"
-                    }
+                    },
+                    "providers": [
+                        "Unicodeveloper\\Paystack\\PaystackServiceProvider"
+                    ]
                 }
             },
             "autoload": {
@@ -14764,6 +14773,6 @@
         "ext-pdo": "*",
         "ext-zip": "*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
 }

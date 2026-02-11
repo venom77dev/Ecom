@@ -1,5 +1,5 @@
 /node_modules
-/public/hot
+#/public/hot
 #/public/storage
 #/storage/*.key
 /vendor
@@ -24,17 +24,17 @@ __MACOSX
 /.phpintel
 /.php_cs.cache
 
-public/vendor/core
+#public/vendor/core
 
 _ide_helper.php
 yarn.lock
 bun.lockb
 /.sass-cache
 
-public/mix-manifest.json
+#public/mix-manifest.json
 
-public/themes
-public/docs
+#public/themes
+#public/docs
 resources/docs
 
 .phpunit.result.cache
