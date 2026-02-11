@@ -41,8 +41,8 @@ resources/docs
 /storage/.license
 /storage/fonts
 /storage/framework/*.txt
-/storage/installing
-/storage/installed
+#/storage/installing
+#/storage/installed
 
 /lang/*
 !/lang/en
