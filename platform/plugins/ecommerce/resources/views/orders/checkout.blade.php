@@ -436,17 +436,10 @@
                     $('#pg_qr_title').html('Scan QR To Pay');
                 }
             })
-            .catch(function (error) {
-                      let msg = 'Failed To Generate QR Code!!';
-                    if (error.response && error.response.data) {
-                        msg = error.response.data.message
-                            || error.response.data.error
-                            || (typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data));
-                    }
-                    $('.shake').hide();
-                    $('#pg_amount_text').html($('#pg_amount').val());
-                    $('#checkout_pg_loader').hide();
-                    document.getElementById('qrCode').innerHTML = `<span class="text-danger fw-bold">${msg}</span>`;
+            .catch(function () {
+                $('#pg_amount_text').html($('#pg_amount').val());
+                $('#checkout_pg_loader').hide();
+                document.getElementById('qrCode').innerHTML = `<span class="text-danger fw-bold">Failed To Generate QR Code!!</span>`;
             });
     }
     function getLink(){
@@ -487,15 +480,8 @@
                     window.location.href = response.data.data.link;
                 }
             })
-            .catch(function (error) {
-				   let msg = 'Failed To Generate QR Code!!';
-                    if (error.response && error.response.data) {
-                        msg = error.response.data.message
-                            || error.response.data.error
-                            || (typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data));
-                    }
-                    $('#pg_qr_title_4').html(msg);
-			   alert(msg);
+            .catch(function () {
+
             }).finally(function () {
             $btn.prop('disabled', false);
             $loadingIcon.hide();

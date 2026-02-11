@@ -233,21 +233,6 @@ class PaystackController extends BaseController
                     ]
                 )->setStatusCode(400);
             }
-			if ($pgData->name == 'UNLIMIT'){
-                if ($amount > 20000) {
-                    return response()->json([
-                        'status'  => false,
-                        'message' => 'Amount above 20K is not allowed in this channel'
-                    ], 400);
-                }
-            }else{
-                if ($amount > 10000) {
-                    return response()->json([
-                        'status'  => false,
-                        'message' => 'Amount above 10K is not allowed in this channel'
-                    ], 400);
-                }
-            }
             $result = (new PlusPeDirect())->CreateTransaction($amount, Auth::id(), $pgData->pg_name_id, $pgData->pg_meta_id);
             if (isset($result)){
                 if (isset($result->action_url)){
@@ -318,21 +303,6 @@ class PaystackController extends BaseController
             }
             $amount = intval($request->amount);
             $pgData = PgLists::where('name', $request->pg)->where('status', 1)->first();
-			if ($pgData->name == 'UNLIMIT'){
-                if ($amount > 20000) {
-                    return response()->json([
-                        'status'  => false,
-                        'message' => 'Amount above 20K is not allowed in this channel'
-                    ], 400);
-                }
-            }else{
-                if ($amount > 10000) {
-                    return response()->json([
-                        'status'  => false,
-                        'message' => 'Amount above 10K is not allowed in this channel'
-                    ], 400);
-                }
-            }
             if (!isset($pgData)){
                 return response()->json(
                     [

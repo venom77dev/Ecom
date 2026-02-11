@@ -12,10 +12,10 @@ class RazorpayPG
     public $api_key = null;
     public $api_secret = null;
     public $currency = 'INR';
-    public $callback_url = '';
-    public $color_code = '#f489f4';
-    public $comapany_name = 'WE MAINTAIN ONLINE SERVICE';
-    public $image = 'https://styleglint.com/storage/new/favicon-logo.png';
+    public $callback_url = 'INR';
+    public $color_code = '#f081b6';
+    public $comapany_name = 'MIRZAQ IT SERVICES PRIVATE LIMITED';
+    public $image = 'https://sonnetstyle.com/storage/favicon-logo.png';
     public function __construct()
     {
         $pgData = PgLists::where('name', 'Razorpay')->where('status', 1)->first();
