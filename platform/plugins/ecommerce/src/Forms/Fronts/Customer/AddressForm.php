@@ -77,7 +77,7 @@ class AddressForm extends FormAbstract
                 HtmlFieldOption::make()
                     ->view('address-user')
                     ->toArray()
-            );
+            );;
     }
 
     public function setFormSelectInputClass(string $cssClass): static

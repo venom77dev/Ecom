@@ -5,9 +5,10 @@ namespace Botble\Ecommerce\Services;
 use Botble\Base\Enums\BaseStatusEnum;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Base\Supports\Helper;
+use Botble\Ecommerce\AdsTracking\FacebookPixel;
+use Botble\Ecommerce\AdsTracking\GoogleTagManager;
 use Botble\Ecommerce\Events\ProductViewed;
 use Botble\Ecommerce\Facades\EcommerceHelper;
-use Botble\Ecommerce\GoogleAnalytics\GoogleTagManager;
 use Botble\Ecommerce\Models\Brand;
 use Botble\Ecommerce\Models\Product;
 use Botble\Ecommerce\Models\ProductCategory;
@@ -150,8 +151,8 @@ class HandleFrontPages
 
                 do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, PRODUCT_MODULE_SCREEN_NAME, $product);
 
-                app(GoogleTagManager::class)
-                    ->viewItem($product);
+                app(GoogleTagManager::class)->viewItem($product);
+                app(FacebookPixel::class)->view($product);
 
                 [$productImages, $productVariation, $selectedAttrs] = EcommerceHelper::getProductVariationInfo(
                     $product,

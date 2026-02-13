@@ -19,7 +19,6 @@ use Illuminate\Http\JsonResponse;
 
 class RecentOrdersTable extends TableAbstract
 {
-
     public function setup(): void
     {
         $this->model(Order::class);

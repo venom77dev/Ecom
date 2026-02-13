@@ -8,13 +8,23 @@
             @include('plugins/ecommerce::orders.partials.logo')
 
             <div class="thank-you">
-                <x-core::icon name="ti ti-circle-check-filled" />
-
+                @if($order->payment->status != 'completed')
+                    <x-core::icon name="ti ti-clock" />
+                @else
+                    <x-core::icon name="ti ti-circle-check-filled" />
+                @endif
                 <div class="d-inline-block">
-                    <h3 class="thank-you-sentence">
-                        {{ __('Your order is successfully placed') }}
-                    </h3>
-                    <p>{{ __('Thank you for purchasing our products!') }}</p>
+                    @if($order->payment->status != 'completed')
+                        <h3 class="thank-you-sentence">
+                            {{ __('Your order is Pending') }}
+                        </h3>
+                        <p>{{ __('Thank you for showing interest in our product!') }}</p>
+                    @else
+                        <h3 class="thank-you-sentence">
+                            {{ __('Your order is successfully placed') }}
+                        </h3>
+                        <p>{{ __('Thank you for purchasing our products!') }}</p>
+                    @endif
                 </div>
             </div>
 

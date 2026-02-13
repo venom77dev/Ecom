@@ -1,4 +1,5 @@
 <?php
+
 namespace Botble\Payment\Models;
 
 use Botble\ACL\Models\User;
@@ -12,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class PgLog extends BaseModel
 {
-
     protected $table = 'tbl_pg_logs';
 
     protected $fillable = [

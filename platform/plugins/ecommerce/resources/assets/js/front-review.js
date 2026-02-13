@@ -23,6 +23,10 @@ $(() => {
                 $reviewListContainer.find('h4').text(message)
                 $reviewListContainer.find('.review-list').html(data)
 
+                if (typeof Theme.lazyLoadInstance !== 'undefined') {
+                    Theme.lazyLoadInstance.update()
+                }
+
                 initLightGallery($reviewListContainer.find('.review-images'))
 
                 if (successCallback) {

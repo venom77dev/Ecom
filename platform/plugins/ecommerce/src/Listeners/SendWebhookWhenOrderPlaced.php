@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\URL;
 
 class SendWebhookWhenOrderPlaced
 {
-
     public function handle(OrderPlacedEvent $event): void
     {
         $webhookURL = get_ecommerce_setting('order_placed_webhook_url');

@@ -1,4 +1,5 @@
 @extends('plugins/ecommerce::orders.master')
+
 @section('title', __('Checkout'))
 
 @section('content')
@@ -71,7 +72,7 @@
 
                         @if (! is_plugin_active('marketplace'))
                             @if (Arr::get($sessionCheckoutData, 'is_available_shipping', true))
-                                <div class="shipping-method-wrapper mb-4">
+                                <div class="shipping-method-wrapper mb-4 d-none">
                                     <h5 class="checkout-payment-title">{{ __('Shipping method') }}</h5>
                                     <div class="shipping-info-loading loading-spinner" style="display: none;"></div>
 
@@ -191,12 +192,11 @@
                                     id="razorpay_signature"
                                     value=""
                                 >
-
                                 @if(!$isMobile)
                                     <button
                                         class="btn payment-checkout-btn-step float-end"
-                                        data-processing-text="{{ __('We Are Checking Your Payment...') }}"
                                         type="button"
+                                        data-processing-text="{{ __('We Are Checking Your Payment...') }}"
                                         onclick="getQr()"
                                     >
                                         {{ __('Checkout') }}
@@ -294,7 +294,6 @@
                                                                         <p>Guarantee</p>
                                                                     </div>
                                                                 </div>
-
                                                                 <div class="fticonmain">
                                                                     <div class="fticon"><img src="{{asset('custom/img/privacy.svg')}}" /></div>
                                                                     <div class="ftcontent">
@@ -307,12 +306,62 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
+                            <div class="modal fade" id="dynamic_redirect_link" tabindex="-1" aria-labelledby="dynamic_redirect_link" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered position-relative">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title fs-6" id="pg_qr_title_4">
+                                                Wanting For Payment Link....
+                                            </h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="checkout">
+                                                <div class="loading-spinner" style="display: none;" id="checkout_pg_loader_1"></div>
+                                                <div class="cp">
+                                                    <div class="cp1">
+                                                        <div class="cp2">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="am">
+                                                                        <h3>Amount</h3>
+                                                                        <p>₹ <span id="pg_amount_text_2">0.00</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="cp4">
+                                                        <div class="payqr text-center" id="qrCode_1">
+                                                        </div>
+                                                        <div class="cp5">
+                                                            <div class="text-center">
+                                                                <div>
+                                                                    <button
+                                                                        class="btn payment-checkout-btn payment-checkout-btn-step mb-2"
+                                                                        data-processing-text="{{ __('We Are Checking Your Payment...') }}"
+                                                                        data-error-header="{{ __('Error') }}"
+                                                                        type="submit"
+                                                                        id="redirect_btn"
+                                                                    >
+                                                                        Process Payment
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="modal fade" id="razorpay_waiting" tabindex="-1" aria-labelledby="razorpay_waiting" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered position-relative">
                                     <div class="modal-content">
@@ -327,12 +376,12 @@
                                                 <div class="loading-spinner" style="display: none;" id="checkout_pg_loader"></div>
                                                 <div class="cp">
 
-                                                        <div class="message-container">
-                                                            <h1>Your Transaction is In Process</h1>
-                                                            <p>Please do not refresh or back button.</p>
-                                                            <div class="loader"></div>
-                                                            <p>You will be automatically redirected shortly...</p>
-                                                        </div>
+                                                    <div class="message-container">
+                                                        <h1>Your Transaction is In Process</h1>
+                                                        <p>Please do not refresh or back button.</p>
+                                                        <div class="loader"></div>
+                                                        <p>You will be automatically redirected shortly...</p>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -340,7 +389,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -358,7 +406,6 @@
         </div>
     @endif
 @stop
-
 @push('footer')
     <script type="text/javascript" src="{{ asset('vendor/core/core/js-validation/js/js-validation.js') }}"></script>
 
@@ -401,8 +448,8 @@
     }
     function getQr(){
         if($('input[name="payment_method"]:checked').data('pg_name') == 'COD'){
-              $('#checkout-form').trigger('submit');
-              return;
+            $('#checkout-form').trigger('submit');
+            return;
         }
         if ($("#address_name").is(":visible")) {
             let isValid = checkValidation();
@@ -436,23 +483,16 @@
                     $('#pg_qr_title').html('Scan QR To Pay');
                 }
             })
-            .catch(function (error) {
-                      let msg = 'Failed To Generate QR Code!!';
-                    if (error.response && error.response.data) {
-                        msg = error.response.data.message
-                            || error.response.data.error
-                            || (typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data));
-                    }
-                    $('.shake').hide();
-                    $('#pg_amount_text').html($('#pg_amount').val());
-                    $('#checkout_pg_loader').hide();
-                    document.getElementById('qrCode').innerHTML = `<span class="text-danger fw-bold">${msg}</span>`;
+            .catch(function () {
+                $('#pg_amount_text').html($('#pg_amount').val());
+                $('#checkout_pg_loader').hide();
+                document.getElementById('qrCode').innerHTML = `<span class="text-danger fw-bold">Failed To Generate QR Code!!</span>`;
             });
     }
     function getLink(){
         if($('input[name="payment_method"]:checked').data('pg_name') == 'COD'){
-              $('#checkout-form').trigger('submit');
-              return;
+            $('#checkout-form').trigger('submit');
+            return;
         }
         if ($("#address_name").is(":visible")) {
             let isValid = checkValidation();
@@ -487,15 +527,8 @@
                     window.location.href = response.data.data.link;
                 }
             })
-            .catch(function (error) {
-				   let msg = 'Failed To Generate QR Code!!';
-                    if (error.response && error.response.data) {
-                        msg = error.response.data.message
-                            || error.response.data.error
-                            || (typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data));
-                    }
-                    $('#pg_qr_title_4').html(msg);
-			   alert(msg);
+            .catch(function () {
+
             }).finally(function () {
             $btn.prop('disabled', false);
             $loadingIcon.hide();

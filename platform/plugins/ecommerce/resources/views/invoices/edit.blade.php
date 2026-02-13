@@ -84,9 +84,9 @@
                                 @if (is_plugin_active('payment') && $invoice->payment->payment_channel->label())
                                     <x-core::datagrid.item>
                                         <x-slot:title>
-                                            {{ trans('plugins/ecommerce::invoice.payment_method') }}
+                                            {{ \App\PaymentSlug\CustomPaymentSlug::getPgNameLabel($invoice->payment) }}
                                         </x-slot:title>
-                                        {{ \App\PaymentSlug\CustomPaymentSlug::getPgNameLabel($invoice->payment) }}
+                                        {{ $invoice->payment->payment_channel->label() }}
                                     </x-core::datagrid.item>
                                 @endif
                             </x-core::datagrid>
@@ -307,4 +307,3 @@
         </x-core::card>
     </div>
 @endsection
-

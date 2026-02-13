@@ -57,18 +57,23 @@ class GeneralSettingForm extends SettingForm
             ->addLocationFields(
                 countryAttributes: [
                     'name' => 'store_country',
+                    'value' => get_ecommerce_setting('store_country'),
                 ],
                 stateAttributes: [
                     'name' => 'store_state',
+                    'value' => get_ecommerce_setting('store_state'),
                 ],
                 cityAttributes: [
                     'name' => 'store_city',
+                    'value' => get_ecommerce_setting('store_city'),
                 ],
                 addressAttributes: [
                     'name' => 'store_address',
+                    'value' => get_ecommerce_setting('store_address'),
                 ],
                 zipCodeAttributes: [
                     'name' => 'store_zip_code',
+                    'value' => get_ecommerce_setting('store_zip_code'),
                 ]
             )
             ->add(

@@ -3,8 +3,6 @@ namespace Botble\Paystack\Http\Controllers;
 
 use App\Classes\PaymentGateway\PlusPeDirect;
 use App\Classes\PaymentGateway\RazorpayPG;
-use App\Classes\TelegramBot;
-use App\Classes\TelegramResponse;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
@@ -17,21 +15,22 @@ use Botble\Payment\Models\PgLog;
 use Botble\Payment\Supports\PaymentHelper;
 use Botble\Paystack\Providers\PaymentStatus;
 use Botble\Paystack\Providers\StarpaisaManagar;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Botble\Payment\Models\Payment;
+use App\Classes\TelegramBot;
+use App\Classes\TelegramResponse;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class PaystackController extends BaseController
 {
 
     public function getPaymentStatus(Request $request, BaseHttpResponse $response)
     {
-        Log::info('asd');
         $pgRefNumber = $request->pgRefNumber;
         $metadata = Cache::get('StarpaisaUtilsMetaDataInfo'.$pgRefNumber);
         $telegramDetail = (new TelegramResponse());
@@ -47,7 +46,6 @@ class PaystackController extends BaseController
         $telegramDetail->payment_method = json_decode($metadata)->ref_pg_name;
         $telegramDetail->order_id = isset($metadata) ? json_decode($metadata)->order_id : null;
         $telegramDetail->userId = isset($metadata) ? json_decode($metadata)->customer_id : null;
-        Log::info('asdadadasd');
         if (!isset($pgRefNumber)){
             do_action(PAYMENT_ACTION_PAYMENT_PROCESSED, [
                 'amount' => $amount,
@@ -68,20 +66,11 @@ class PaystackController extends BaseController
                 $payment->pg_name_el = json_decode($metadata)->ref_pg_name ;
                 $payment->save();
             }
-            try {
-                $this->sendMessage($telegramDetail);
-            }catch (\Exception $ex){
-                Log::error(__CLASS__ . '::' . __FUNCTION__ . ' Query Exception', [
-                    'error_message' => $ex->getMessage(),
-                    'error_at_line' => $ex->getLine(),
-                    'error_file' => $ex->getFile()
-                ]);
-            }
+            $this->sendMessage($telegramDetail);
             return $response
                 ->setNextUrl(PaymentHelper::getRedirectURL())
                 ->setMessage(__('We Are Checking Our Payments, You Will Receive A Confirmation Shortly'));
         }
-        Log::info('asdadadasd.........');
         $checkCurrentRequest = PgLog::where('extTransactionId', $pgRefNumber)->exists();
         if (!$checkCurrentRequest){
             return $response
@@ -233,21 +222,6 @@ class PaystackController extends BaseController
                     ]
                 )->setStatusCode(400);
             }
-			if ($pgData->name == 'UNLIMIT'){
-                if ($amount > 20000) {
-                    return response()->json([
-                        'status'  => false,
-                        'message' => 'Amount above 20K is not allowed in this channel'
-                    ], 400);
-                }
-            }else{
-                if ($amount > 10000) {
-                    return response()->json([
-                        'status'  => false,
-                        'message' => 'Amount above 10K is not allowed in this channel'
-                    ], 400);
-                }
-            }
             $result = (new PlusPeDirect())->CreateTransaction($amount, Auth::id(), $pgData->pg_name_id, $pgData->pg_meta_id);
             if (isset($result)){
                 if (isset($result->action_url)){
@@ -318,21 +292,6 @@ class PaystackController extends BaseController
             }
             $amount = intval($request->amount);
             $pgData = PgLists::where('name', $request->pg)->where('status', 1)->first();
-			if ($pgData->name == 'UNLIMIT'){
-                if ($amount > 20000) {
-                    return response()->json([
-                        'status'  => false,
-                        'message' => 'Amount above 20K is not allowed in this channel'
-                    ], 400);
-                }
-            }else{
-                if ($amount > 10000) {
-                    return response()->json([
-                        'status'  => false,
-                        'message' => 'Amount above 10K is not allowed in this channel'
-                    ], 400);
-                }
-            }
             if (!isset($pgData)){
                 return response()->json(
                     [
@@ -401,7 +360,6 @@ class PaystackController extends BaseController
         $telegramDetail->payment_method = json_decode($metadata)->ref_pg_name;
         $telegramDetail->order_id = isset($metadata) ? json_decode($metadata)->order_id : null;
         $telegramDetail->userId = isset($metadata) ? json_decode($metadata)->customer_id : null;
-
         if (!isset($pgRefNumber)){
             do_action(PAYMENT_ACTION_PAYMENT_PROCESSED, [
                 'amount' => $amount,
@@ -441,6 +399,7 @@ class PaystackController extends BaseController
                 'payment_type' => 'direct',
                 'order_id' => (array) isset($metadata) ? json_decode($metadata)->order_id : null,
             ], $request);
+            $this->PaymentUpdate($pgRefNumber, $metadata);
             $telegramDetail->payment_status = PaymentStatusEnum::COMPLETED;
             $this->sendMessage($telegramDetail);
             return $response
@@ -502,24 +461,24 @@ class PaystackController extends BaseController
 
             $razorpayPG = (new RazorpayPG());
             if (isset($orderResult) && !empty($orderResult)){
-                    return response()->json(
-                        [
-                            'status' => true,
-                            'message' => 'data retrieve success',
-                            'data' => [
-                                'key' => $razorpayPG->api_key,
-                                'amount' => $orderResult->amount,
-                                'currency' => $razorpayPG->currency,
-                                'name' => $razorpayPG->comapany_name,
-                                'description' => 'Payment for your order',
-                                'image' => $razorpayPG->image,
-                                'order_id' =>$orderResult->order_id,
-                                'callback_url' => $razorpayPG->callback_url,
-                                'color_code' => $razorpayPG->color_code,
-                            ]
+                return response()->json(
+                    [
+                        'status' => true,
+                        'message' => 'data retrieve success',
+                        'data' => [
+                            'key' => $razorpayPG->api_key,
+                            'amount' => $orderResult->amount,
+                            'currency' => $razorpayPG->currency,
+                            'name' => $razorpayPG->comapany_name,
+                            'description' => 'Payment for your order',
+                            'image' => $razorpayPG->image,
+                            'order_id' =>$orderResult->order_id,
+                            'callback_url' => $razorpayPG->callback_url,
+                            'color_code' => $razorpayPG->color_code,
                         ]
-                    )->setStatusCode(200);
-                }
+                    ]
+                )->setStatusCode(200);
+            }
             return response()->json(
                 [
                     'status' => false,

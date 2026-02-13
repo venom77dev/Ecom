@@ -5,6 +5,8 @@ namespace Botble\Ecommerce\Http\Controllers\Fronts;
 use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Http\Controllers\BaseController;
 use Botble\Base\Rules\EmailRule;
+use Botble\Ecommerce\AdsTracking\FacebookPixel;
+use Botble\Ecommerce\AdsTracking\GoogleTagManager;
 use Botble\Ecommerce\Enums\DiscountTypeEnum;
 use Botble\Ecommerce\Enums\OrderHistoryActionEnum;
 use Botble\Ecommerce\Enums\OrderStatusEnum;
@@ -15,7 +17,6 @@ use Botble\Ecommerce\Facades\Cart;
 use Botble\Ecommerce\Facades\Discount;
 use Botble\Ecommerce\Facades\EcommerceHelper;
 use Botble\Ecommerce\Facades\OrderHelper;
-use Botble\Ecommerce\GoogleAnalytics\GoogleTagManager;
 use Botble\Ecommerce\Http\Requests\ApplyCouponRequest;
 use Botble\Ecommerce\Http\Requests\CheckoutRequest;
 use Botble\Ecommerce\Http\Requests\SaveCheckoutInformationRequest;
@@ -195,6 +196,7 @@ class PublicCheckoutController extends BaseController
             $orderAmount,
             isset($discount) ? $discount->code : null
         );
+        app(FacebookPixel::class)->checkout($products->all(), $orderAmount);
 
         $checkoutView = Theme::getThemeNamespace('views.ecommerce.orders.checkout');
 
@@ -852,6 +854,7 @@ class PublicCheckoutController extends BaseController
 
         if (session('tracked_start_checkout')) {
             app(GoogleTagManager::class)->purchase($order);
+            app(FacebookPixel::class)->purchase($order);
         }
 
         if (is_plugin_active('marketplace')) {
@@ -1006,7 +1009,17 @@ class PublicCheckoutController extends BaseController
             $referrals = app(FootprinterInterface::class)->getFootprints();
 
             if ($referrals) {
-                $order->referral()->create($referrals);
+                try {
+                    $order->referral()->create($referrals);
+                } catch (Throwable) {
+                    $referrals = array_map(function (?string $item) {
+                        return is_string($item) ? substr($item, 0, 190) : $item;
+                    }, $referrals);
+
+                    rescue(function () use ($order, $referrals) {
+                        $order->referral()->create($referrals);
+                    }, report: false);
+                }
             }
         }
 

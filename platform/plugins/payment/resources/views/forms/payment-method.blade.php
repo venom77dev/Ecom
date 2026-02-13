@@ -6,7 +6,6 @@
     :description="Arr::get($formOptions, 'payment_description')"
     :default-description-value="Arr::get($formOptions, 'default_description_value')"
 >
-
     <x-slot:instructions>
         {{ $form->getPaymentInstructions() }}
     </x-slot:instructions>

@@ -8,7 +8,6 @@ use Botble\Paystack\Providers\PGStatusRes;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Botble\Payment\Models\PgLists;
 
 class PlusPeDirect
 {
@@ -46,8 +45,6 @@ class PlusPeDirect
 
     public function CreateTransaction($payment_amount, $customer_id, $pg_name, $meta_id)
     {
-		     $pgData = PgLists::where('name',$pg_name)->first();
-        $pg_name = $pgData->pg_name_id; 
         $customer_id = isset($customer_id) ? $customer_id : 'guest';
         $result = (new PGRequestRes());
         try {
@@ -102,5 +99,30 @@ class PlusPeDirect
             Log::info('CreateTransaction', [$exception->getMessage()]);
         }
         return $txninfo;
+    }
+    public function CreateRedirectTransaction($payment_amount, $customer_id, $pg_name, $meta_id, $returnUrl)
+    {
+        $customer_id = isset($customer_id) ? $customer_id : 'guest';
+        $result = (new PGRequestRes());
+        try {
+            $data = self::HttpRequestManager('/AUTO/CreateSeamlessOrder', [
+                'payment_ref_id' => Str::random(20),
+                'payment_amount' => $payment_amount,
+                'return_url' => $returnUrl,
+                'customer_id' => (string) $customer_id,
+                'pg_name' => $pg_name,
+                'meta_id' => $meta_id,
+            ], 'CREATE_TRANSACTION');
+
+            if (isset($data) && $data->status && isset($data->data)) {
+                $result->checkout_url = $data->data->checkout_url;
+                $result->amount = $data->data->amount;
+                $result->extTransactionId = $data->data->order_id;
+                $result->respMessage = $data->message;
+            }
+        } catch (\Exception $exception) {
+            Log::info('CREATE_TRANSACTION', [$exception->getMessage()]);
+        }
+        return $result;
     }
 }

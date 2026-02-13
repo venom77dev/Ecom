@@ -34,7 +34,7 @@ class ProductCategoryForm extends FormAbstract
             ->setupModel(new ProductCategory())
             ->setValidatorClass(ProductCategoryRequest::class)
             ->add('order', 'hidden', [
-                'value' => $maxOrder + 1,
+                'value' => $this->getModel()->exists ? $this->getModel()->order : $maxOrder + 1,
             ])
             ->add('name', TextField::class, NameFieldOption::make()->toArray())
             ->add(

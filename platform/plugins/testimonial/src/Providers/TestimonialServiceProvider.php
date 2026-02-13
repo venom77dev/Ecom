@@ -23,8 +23,7 @@ class TestimonialServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this
-            ->setNamespace('plugins/testimonial')
+        $this->setNamespace('plugins/testimonial')
             ->loadHelpers()
             ->loadAndPublishConfigurations(['permissions'])
             ->loadMigrations()

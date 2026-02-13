@@ -5,12 +5,12 @@ namespace Botble\Ecommerce\Supports;
 use Botble\Base\Enums\BaseStatusEnum;
 use Botble\Ecommerce\Models\ProductCategory;
 use Botble\Language\Facades\Language;
+use Botble\Support\Services\Cache\Cache;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class ProductCategoryHelper
@@ -139,10 +139,12 @@ class ProductCategoryHelper
 
     public function renderProductCategoriesSelect(int|string|null $selected = null): string
     {
-        $cacheKey = 'ecommerce_categories_for_rendering_select';
+        $cache = new Cache(app('cache'), ProductCategory::class);
 
-        if (Cache::has($cacheKey)) {
-            $categories = Cache::get($cacheKey);
+        $cacheKey = 'ecommerce_categories_for_rendering_select' . md5($cache->generateCacheKeyFromInput() . serialize(func_get_args()));
+
+        if ($cache->has($cacheKey)) {
+            $categories = $cache->get($cacheKey);
         } else {
             $query = ProductCategory::query()
                 ->toBase()
@@ -157,7 +159,7 @@ class ProductCategoryHelper
 
             $categories = $this->applyQuery($query)->get();
 
-            Cache::put($cacheKey, $categories, Carbon::now()->addHours(2));
+            $cache->put($cacheKey, $categories, Carbon::now()->addHours(2));
         }
 
         return view('core/base::forms.partials.nested-select-option', [
@@ -169,10 +171,12 @@ class ProductCategoryHelper
 
     public function getProductCategoriesWithUrl(array $categoryIds = [], array $condition = [], ?int $limit = null): Collection
     {
-        $cacheKey = 'ecommerce_categories_with_url';
+        $cache = new Cache(app('cache'), ProductCategory::class);
 
-        if (Cache::has($cacheKey)) {
-            return Cache::get($cacheKey);
+        $cacheKey = 'ecommerce_categories_for_widgets_' . md5($cache->generateCacheKeyFromInput() . serialize(func_get_args()));
+
+        if ($cache->has($cacheKey)) {
+            return $cache->get($cacheKey);
         }
 
         $query = ProductCategory::query()
@@ -218,7 +222,7 @@ class ProductCategoryHelper
 
         $categories = $query->get()->unique('id');
 
-        Cache::put($cacheKey, $categories, Carbon::now()->addHours(2));
+        $cache->put($cacheKey, $categories, Carbon::now()->addHours(2));
 
         return $categories;
     }

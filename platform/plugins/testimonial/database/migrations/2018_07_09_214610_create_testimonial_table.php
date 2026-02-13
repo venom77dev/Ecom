@@ -12,7 +12,7 @@ return new class () extends Migration {
                 $table->id();
                 $table->string('name', 120);
                 $table->text('content');
-                $table->string('image')->nullable();
+                $table->string('image', 255)->nullable();
                 $table->string('company', 120)->nullable();
                 $table->string('status', 60)->default('published');
                 $table->timestamps();

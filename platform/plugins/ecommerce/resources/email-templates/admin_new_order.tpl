@@ -1,6 +1,5 @@
 {{ header }}
 
-
 <div class="bb-main-content">
     <table class="bb-box" cellpadding="0" cellspacing="0">
         <tbody>
@@ -86,5 +85,3 @@
 </div>
 
 {{ footer }}
-
-

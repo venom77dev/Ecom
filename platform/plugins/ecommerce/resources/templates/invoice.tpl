@@ -1,6 +1,4 @@
 <!doctype html>
-
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -334,7 +332,6 @@
     <tbody>
     <tr>
         <td class="payment-info">
-
             {% if payment_status %}
                 <div>
                     {{ 'plugins/ecommerce::order.payment_status_label'|trans }}: <strong>{{ payment_status_label }}</strong>
@@ -356,4 +353,3 @@
 {{ ecommerce_invoice_footer | raw }}
 </body>
 </html>
-

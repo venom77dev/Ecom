@@ -7,7 +7,6 @@
             icon="ti ti-shopping-cart"
             :title="trans('plugins/ecommerce::order.incomplete_order_description_1')"
         >
-
             <x-core::form.label class="mt-3">
                 {{ trans('plugins/ecommerce::order.incomplete_order_description_2') }}
             </x-core::form.label>
@@ -254,46 +253,66 @@
                         @endif
                     </div>
 
-                    <div class="hr my-1"></div>
+                    @if (
+                        $order->shippingAddress->country
+                        || $order->shippingAddress->state
+                        || $order->shippingAddress->city
+                        || $order->shippingAddress->address
+                        || $order->shippingAddress->email
+                        || $order->shippingAddress->phone
+                    )
+                        @if (EcommerceHelper::countDigitalProducts($order->products) != $order->products->count())
+                            <div class="hr my-1"></div>
 
-                    <div class="p-3">
-                        <h4>{{ trans('plugins/ecommerce::order.shipping_address') }}</h4>
+                            <div class="p-3">
+                                <h4>{{ trans('plugins/ecommerce::order.shipping_address') }}</h4>
 
-                        <dl class="mb-0">
-                            <dd>{{ $order->address->name }}</dd>
-                            <dd>
-                                <a href="tel:{{ $phone = $order->address->phone }}">
-                                    <x-core::icon name="ti ti-phone" />
-                                    <span dir="ltr">{{ $phone }}</span>
-                                </a>
-                            </dd>
-                            <dd>{{ $order->address->full_address }}</dd>
-                            <dd>
-                                <a
-                                    href="https://maps.google.com/?q={{ $order->address->full_address }}"
-                                    target="_blank"
-                                >
-                                    {{ trans('plugins/ecommerce::order.see_maps') }}
-                                </a>
-                            </dd>
-                        </dl>
-                    </div>
+                                <dl class="shipping-address-info mb-0">
+                                    @include(
+                                        'plugins/ecommerce::orders.shipping-address.detail',
+                                        ['address' => $order->shippingAddress]
+                                    )
+                                </dl>
+                            </div>
+                        @endif
 
-                    @if ($order->referral()->count())
+                        @if (
+                            EcommerceHelper::isBillingAddressEnabled()
+                            && $order->billingAddress->id
+                            && $order->billingAddress->id != $order->shippingAddress->id
+                        )
+                            <div class="hr my-1"></div>
+
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h4>{{ trans('plugins/ecommerce::order.billing_address') }}</h4>
+                                </div>
+
+                                <dl class="shipping-address-info mb-0">
+                                    @include(
+                                        'plugins/ecommerce::orders.shipping-address.detail',
+                                        ['address' => $order->billingAddress]
+                                    )
+                                </dl>
+                            </div>
+                        @endif
+                    @endif
+
+                    @if ($order->referral->exists())
                         <div class="hr my-1"></div>
 
                         <div class="p-3">
                             <h4>{{ trans('plugins/ecommerce::order.referral') }}</h4>
-                        </div>
 
-                        <dl class="mb-0">
-                            @foreach (['ip', 'landing_domain', 'landing_page', 'landing_params', 'referral', 'gclid', 'fclid', 'utm_source', 'utm_campaign', 'utm_medium', 'utm_term', 'utm_content', 'referrer_url', 'referrer_domain'] as $field)
-                                @if ($order->referral->{$field})
-                                    <dt>{{ trans("plugins/ecommerce::order.referral_data.$field") }}</dt>
-                                    <dd>{{ $order->referral->{$field} }}</dd>
-                                @endif
-                            @endforeach
-                        </dl>
+                            <dl class="mb-0">
+                                @foreach (['ip', 'landing_domain', 'landing_page', 'landing_params', 'referral', 'gclid', 'fclid', 'utm_source', 'utm_campaign', 'utm_medium', 'utm_term', 'utm_content', 'referrer_url', 'referrer_domain'] as $field)
+                                    @if ($order->referral->{$field})
+                                        <dt>{{ trans('plugins/ecommerce::order.referral_data.' . $field) }}</dt>
+                                        <dd>{{ $order->referral->{$field} }}</dd>
+                                    @endif
+                                @endforeach
+                            </dl>
+                        </div>
                     @endif
                 </x-core::card.body>
             </x-core::card>

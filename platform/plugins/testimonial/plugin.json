@@ -5,6 +5,6 @@
     "provider": "Botble\\Testimonial\\Providers\\TestimonialServiceProvider",
     "author": "Botble Technologies",
     "url": "https://botble.com",
-    "version": "2.1.2",
+    "version": "2.1.0",
     "description": "Customer testimonials"
 }

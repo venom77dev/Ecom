@@ -1,4 +1,5 @@
 <?php
+
 namespace Botble\Payment\Models;
 
 use Botble\ACL\Models\User;
@@ -9,10 +10,8 @@ use Botble\Payment\Enums\PaymentStatusEnum;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-
 class Payment extends BaseModel
 {
-
     protected $table = 'payments';
 
     protected $fillable = [
@@ -29,7 +28,6 @@ class Payment extends BaseModel
         'customer_type',
         'refunded_amount',
         'refund_note',
-        'extTransactionId',
     ];
 
     protected $casts = [

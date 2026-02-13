@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 
@@ -54,9 +53,6 @@ class ProductCategory extends BaseModel implements HasTreeCategoryContract
         });
 
         static::saved(function () {
-            Cache::forget('ecommerce_categories_with_url');
-            Cache::forget('ecommerce_categories_for_rendering_select');
-
             (new CacheService(app('cache'), ProductCategory::class))->flush();
         });
     }

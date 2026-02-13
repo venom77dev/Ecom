@@ -6,7 +6,6 @@
 
         <div class="row row-cards">
             <div class="col-md-9">
-
                 <x-core::card class="mb-3">
                     <x-core::card.header class="justify-content-between">
                         <x-core::card.title>

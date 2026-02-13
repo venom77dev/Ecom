@@ -1,4 +1,5 @@
 <?php
+
 namespace Botble\Ecommerce\Http\Requests;
 
 use Botble\Base\Rules\EmailRule;
@@ -144,6 +145,7 @@ class CheckoutRequest extends Request
                 }
             }
         }
+
         return apply_filters(PROCESS_CHECKOUT_RULES_REQUEST_ECOMMERCE, $rules);
     }
 
@@ -195,4 +197,3 @@ class CheckoutRequest extends Request
         return $rules;
     }
 }
-

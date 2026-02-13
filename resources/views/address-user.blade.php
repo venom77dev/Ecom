@@ -3,7 +3,7 @@
     document.addEventListener("DOMContentLoaded", function() {
         // Hide the label if input is not empty
 
-        document.getElementById('address_zip_code').addEventListener("focusout", function() {
+        document.getElementById('zip_code').addEventListener("focusout", function() {
             // Get the pincode value from the input
             var pincode = this.value.trim();
 

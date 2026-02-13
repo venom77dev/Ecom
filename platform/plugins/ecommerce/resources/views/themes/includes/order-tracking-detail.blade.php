@@ -4,7 +4,6 @@
             <div class="customer-order-detail">
                 <div class="row">
                     <div @class(['col-12' => ! $order->address->name, 'col-md-6' => $order->address->name])>
-
                         <p>
                             <span class="d-inline-block me-1">{{ __('Order number') }}: </span>
                             <strong>{{ $order->code }}</strong>

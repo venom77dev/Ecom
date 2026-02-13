@@ -92,7 +92,7 @@ class PluginManagementController extends BaseController
 
     public function update(Request $request): BaseHttpResponse
     {
-        $plugin = strtolower($request->input('name'));
+        $plugin = $request->input('name');
 
         if (! $this->pluginService->validatePlugin($plugin)) {
             return $this
@@ -131,8 +131,6 @@ class PluginManagementController extends BaseController
 
     public function destroy(string $plugin): BaseHttpResponse
     {
-        $plugin = strtolower($plugin);
-
         try {
             $result = $this->pluginService->remove($plugin);
 
@@ -156,7 +154,7 @@ class PluginManagementController extends BaseController
 
     public function checkRequirement(Request $request, MarketplaceService $marketplaceService): BaseHttpResponse
     {
-        $name = strtolower($request->input('name'));
+        $name = $request->input('name');
 
         $requiredPlugins = $this->pluginService->getDependencies($name);
 

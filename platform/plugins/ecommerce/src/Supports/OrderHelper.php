@@ -61,7 +61,6 @@ use Throwable;
 
 class OrderHelper
 {
-
     public function processOrder(string|array|null $orderIds, ?string $chargeId = null): bool|Collection|array|Model
     {
         $orderIds = (array) $orderIds;
@@ -738,7 +737,6 @@ class OrderHelper
 
     protected function createOrderAddress(array $data, ?array $sessionData = []): OrderAddress|bool
     {
-
         $data['type'] = OrderAddressTypeEnum::SHIPPING;
 
         if ($orderId = Arr::get($sessionData, 'created_order_id')) {

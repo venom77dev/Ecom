@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 
 class PublicUpdateCheckoutController extends BaseController
 {
-
     public function __invoke(Request $request, HandleCheckoutOrderData $handleCheckoutOrderData)
     {
         $sessionCheckoutData = OrderHelper::getOrderSessionData(
@@ -25,6 +24,7 @@ class PublicUpdateCheckoutController extends BaseController
             $token,
             $sessionCheckoutData
         );
+
         return $this
             ->httpResponse()
             ->setData([

@@ -17,7 +17,6 @@
             </div>
         </div>
         <meta name="robots" content="noindex, nofollow">
-
         @include('core/base::layouts.partials.footer')
     </div>
 

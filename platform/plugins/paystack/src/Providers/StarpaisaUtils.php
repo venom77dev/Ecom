@@ -19,8 +19,8 @@ class StarpaisaUtils
     {
         $this->orderUrl = 'https://api.starpaisa.in/v1/merchant/generateQR';
         $this->statusUrl = 'https://api.starpaisa.in/v1/merchant/qrStatus';
-        $this->username = 'perackentp@gmail.com';
-        $this->password = 'ramboes@788';
+        $this->username = 'ispatelegant@gmail.com';
+        $this->password = 'Elegant@12';
     }
 
     public function createStarpaisaOrder($amount)

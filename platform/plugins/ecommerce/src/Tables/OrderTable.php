@@ -38,7 +38,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class OrderTable extends TableAbstract
 {
-
     public function setup(): void
     {
         $this

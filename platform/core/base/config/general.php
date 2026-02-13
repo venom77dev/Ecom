@@ -464,4 +464,3 @@ return [
     'csv_import_input_encoding' => env('CMS_CSV_IMPORT_INPUT_ENCODING', 'UTF-8'),
     'google_fonts_key' => env('CMS_GOOGLE_FONTS_KEY'),
 ];
-

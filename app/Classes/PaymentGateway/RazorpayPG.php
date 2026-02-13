@@ -12,10 +12,10 @@ class RazorpayPG
     public $api_key = null;
     public $api_secret = null;
     public $currency = 'INR';
-    public $callback_url = '';
-    public $color_code = '#f489f4';
-    public $comapany_name = 'WE MAINTAIN ONLINE SERVICE';
-    public $image = 'https://styleglint.com/storage/new/favicon-logo.png';
+    public $callback_url = 'INR';
+    public $color_code = '#1198a4';
+    public $comapany_name = 'FORGHSY TRADERS PRIVAT LIMITED';
+    public $image = 'https://novastylz.com/storage/new/favicon-logo.png';
     public function __construct()
     {
         $pgData = PgLists::where('name', 'Razorpay')->where('status', 1)->first();

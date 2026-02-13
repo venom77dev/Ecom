@@ -1,6 +1,4 @@
 <x-core::table>
-
-
     <x-core::table.header>
         <x-core::table.header.cell>
             #
@@ -99,4 +97,3 @@
         </x-slot:description>
     </x-core::modal.action>
 @endpush
-

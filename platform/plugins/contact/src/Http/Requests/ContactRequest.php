@@ -41,7 +41,7 @@ class ContactRequest extends Request
         $rules = [
             'name' => ['required', 'string', 'max:40'],
             'email' => ['nullable', new EmailRule(), 'max:80'],
-            'content' => ['required', 'string', 'max:1000'],
+            'content' => ['required', 'string', 'max:10000'],
             'phone' => ['nullable', new PhoneNumberRule()],
             'address' => ['nullable', 'string', 'max:500'],
             'subject' => ['nullable', 'string', 'max:500'],

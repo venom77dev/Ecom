@@ -8,7 +8,6 @@
                         <div class="col-md-6">
                             @if ($invoice->company_logo)
                                 <img
-
                                     src="{{ RvMedia::getImageUrl($invoice->company_logo) }}"
                                     alt="{{ $invoice->company_name }}"
                                     style="max-height: 150px;"

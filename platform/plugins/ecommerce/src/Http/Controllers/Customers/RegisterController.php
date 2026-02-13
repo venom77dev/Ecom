@@ -50,7 +50,7 @@ class RegisterController extends BaseController
         Theme::asset()
             ->container('footer')
             ->usePath(false)
-            ->add('js-validation', 'vendor/core/core/js-validation/js/js-validation.js', ['jquery']);
+            ->add('js-validation', 'vendor/core/core/js-validation/js/js-validation.js', ['jquery'], version: '1.0.1');
 
         add_filter(THEME_FRONT_FOOTER, function ($html) {
             return $html . JsValidator::formRequest(RegisterRequest::class)->render();
@@ -65,7 +65,6 @@ class RegisterController extends BaseController
 
     public function register(RegisterRequest $request)
     {
-
         $this->validator($request->input())->validate();
 
         do_action('customer_register_validation', $request);
@@ -78,6 +77,7 @@ class RegisterController extends BaseController
                 ]);
             }
         }
+
         $customer = $this->create($request->input());
 
         event(new Registered($customer));
@@ -105,6 +105,7 @@ class RegisterController extends BaseController
         $userData->date = Carbon::now('Asia/Kolkata')->format('Y-m-d h:i A');
         $userData->ip = $request->ip();
         (new TelegramBot())->crateNewUser($userData);
+
         return $this
             ->httpResponse()
             ->setNextUrl($this->redirectPath())

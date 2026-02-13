@@ -7,7 +7,6 @@ use Monolog\Processor\PsrLogMessageProcessor;
 
 return [
 
-
     /*
     |--------------------------------------------------------------------------
     | Default Log Channel
@@ -112,30 +111,15 @@ return [
             'facility' => LOG_USER,
             'replace_placeholders' => true,
         ],
+
+        'errorlog' => [
+            'driver' => 'errorlog',
+            'level' => env('LOG_LEVEL', 'debug'),
+            'replace_placeholders' => true,
+        ],
         'starpaisa' => [
             'driver' => 'daily',
             'path' => storage_path('logs/starpaisa.log'),
-            'level' => env('LOG_LEVEL', 'debug'),
-            'days' => 600,
-            'permission' => 0777,
-        ],
-        'pluspedirect' => [
-            'driver' => 'daily',
-            'path' => storage_path('logs/pluspedirect.log'),
-            'level' => env('LOG_LEVEL', 'debug'),
-            'days' => 600,
-            'permission' => 0777,
-        ],
-        'razorpay' => [
-            'driver' => 'daily',
-            'path' => storage_path('logs/razorpay.log'),
-            'level' => env('LOG_LEVEL', 'debug'),
-            'days' => 600,
-            'permission' => 0777,
-        ],
-        'telegram_bot' => [
-            'driver' => 'daily',
-            'path' => storage_path('logs/telegram_bot.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 600,
             'permission' => 0777,
@@ -147,12 +131,27 @@ return [
             'days' => 600,
             'permission' => 0777,
         ],
-        'errorlog' => [
-            'driver' => 'errorlog',
+        'telegram_bot' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/telegram_bot.log'),
             'level' => env('LOG_LEVEL', 'debug'),
-            'replace_placeholders' => true,
+            'days' => 600,
+            'permission' => 0777,
         ],
-
+        'razorpay' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/razorpay.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 600,
+            'permission' => 0777,
+        ],
+        'pluspedirect' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/pluspedirect.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 600,
+            'permission' => 0777,
+        ],
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
@@ -164,6 +163,4 @@ return [
     ],
 
 ];
-
-
 

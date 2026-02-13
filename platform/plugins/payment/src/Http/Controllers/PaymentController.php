@@ -1,4 +1,5 @@
 <?php
+
 namespace Botble\Payment\Http\Controllers;
 
 use Botble\Base\Facades\Assets;
@@ -21,11 +22,9 @@ use Illuminate\Support\Arr;
 
 class PaymentController extends SettingController
 {
-
     public function __construct(protected PaymentInterface $paymentRepository)
     {
     }
-
 
     public function index(PaymentTable $table)
     {

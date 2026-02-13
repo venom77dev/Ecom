@@ -19,6 +19,8 @@ use Botble\Base\Supports\TwigCompiler;
 use Botble\Dashboard\Events\RenderingDashboardWidgets;
 use Botble\Dashboard\Supports\DashboardWidgetInstance;
 use Botble\DataSynchronize\Importer\Importer;
+use Botble\Ecommerce\AdsTracking\FacebookPixel;
+use Botble\Ecommerce\AdsTracking\GoogleTagManager;
 use Botble\Ecommerce\Cart\CartItem;
 use Botble\Ecommerce\Enums\OrderReturnStatusEnum;
 use Botble\Ecommerce\Facades\Cart;
@@ -27,7 +29,6 @@ use Botble\Ecommerce\Facades\EcommerceHelper;
 use Botble\Ecommerce\Facades\FlashSale as FlashSaleFacade;
 use Botble\Ecommerce\Facades\InvoiceHelper;
 use Botble\Ecommerce\Facades\OrderHelper;
-use Botble\Ecommerce\GoogleAnalytics\GoogleTagManager;
 use Botble\Ecommerce\Importers\ProductImporter;
 use Botble\Ecommerce\Models\Brand;
 use Botble\Ecommerce\Models\Customer;
@@ -841,6 +842,7 @@ class HookServiceProvider extends ServiceProvider
         }
 
         $this->app->make(GoogleTagManager::class)->pushScriptsToFooter();
+        $this->app->make(FacebookPixel::class)->pushScriptsToFooter();
 
         add_filter('ecommerce_cart_after_item_content', function (?string $html, CartItem $item) {
             $product = Product::query()->find($item->id);

@@ -12,7 +12,6 @@ use Botble\Setting\Forms\SettingForm;
 
 class PaymentMethodSettingForm extends SettingForm
 {
-
     public function setup(): void
     {
         parent::setup();
@@ -31,8 +30,8 @@ class PaymentMethodSettingForm extends SettingForm
                 SelectFieldOption::make()
                     ->label(trans('plugins/payment::payment.default_payment_method'))
                     ->choices([
-                          "cod" => "Cash on delivery (COD)",
-                          "paystack" => "Online Pay [All Payment Gateway]",
+                        "cod" => "Cash on delivery (COD)",
+                        "paystack" => "Online Pay [All Payment Gateway]",
                     ])
                     ->selected(PaymentHelper::defaultPaymentMethod())
                     ->toArray(),

@@ -80,4 +80,15 @@
         position: absolute;
         top: 50px;
     }
+    .auth-card .auth-card__body .btn{
+        font-size: 12px;
+        padding: 2px 15px;
+        width: 100px;
+        display: block;
+    }
+    @media screen and (max-width: 767px) {
+        .auth-card .auth-card__body .btn{
+            font-size: 9px;
+        }
+    }
 </style>

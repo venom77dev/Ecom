@@ -17,7 +17,6 @@
         content="Installation Botble CMS v{{ get_cms_version() }}"
     >
     <meta name="robots" content="noindex, nofollow">
-
     <link
         href="{{ asset('vendor/core/core/base/images/favicon.png') }}"
         rel="icon"

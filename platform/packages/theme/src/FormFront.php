@@ -80,6 +80,21 @@ abstract class FormFront extends FormAbstract
         return $this;
     }
 
+    public function getFormInputClass(): ?string
+    {
+        return $this->formInputClass;
+    }
+
+    public function getFormLabelClass(): ?string
+    {
+        return $this->formLabelClass;
+    }
+
+    public function getFormInputWrapperClass(): ?string
+    {
+        return $this->formInputWrapperClass;
+    }
+
     public function setFormInputWrapperClass(string $class): static
     {
         $this->formInputWrapperClass = $class;
@@ -118,17 +133,16 @@ abstract class FormFront extends FormAbstract
                 continue;
             }
 
-            if ($this->formInputWrapperClass) {
-                $field->setOption('wrapper.class', $this->formInputWrapperClass);
+            if ($this->getFormInputWrapperClass()) {
+                $field->setOption('wrapper.class', $this->getFormInputWrapperClass());
             }
 
-            if ($this->formInputClass) {
-                $field->setOption('attr.class', $this->formInputClass);
+            if ($this->getFormInputClass()) {
+                $field->setOption('attr.class', $this->getFormInputClass());
             }
 
-            if ($this->formLabelClass) {
-
-                $field->setOption('label_attr.class', $this->formLabelClass . str_replace('form-label', '', $field->getOption('label_attr.class', '')));
+            if ($this->getFormLabelClass()) {
+                $field->setOption('label_attr.class', $this->getFormLabelClass() . str_replace('form-label', '', $field->getOption('label_attr.class', '')));
             }
         }
 

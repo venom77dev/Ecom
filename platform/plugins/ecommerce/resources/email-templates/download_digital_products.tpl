@@ -1,6 +1,5 @@
 {{ header }}
 
-
 <div class="bb-main-content">
     <table class="bb-box" cellpadding="0" cellspacing="0">
         <tbody>
@@ -10,7 +9,6 @@
                     <tbody>
                         <tr>
                             <td valign="middle" align="center">
-
                                 <img src="{{ 'cloud-download' | icon_url }}" class="bb-va-middle" width="40" height="40" alt="Icon" />
                             </td>
                         </tr>
@@ -74,10 +72,8 @@
                 </div>
             </td>
         </tr>
-
         </tbody>
     </table>
 </div>
 
 {{ footer }}
-

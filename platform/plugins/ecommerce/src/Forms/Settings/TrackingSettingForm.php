@@ -8,8 +8,8 @@ use Botble\Base\Forms\FieldOptions\TextFieldOption;
 use Botble\Base\Forms\Fields\OnOffField;
 use Botble\Base\Forms\Fields\TextField;
 use Botble\Base\Forms\FormCollapse;
+use Botble\Ecommerce\AdsTracking\GoogleTagManager;
 use Botble\Ecommerce\Facades\EcommerceHelper;
-use Botble\Ecommerce\GoogleAnalytics\GoogleTagManager;
 use Botble\Ecommerce\Http\Requests\Settings\TrackingSettingRequest;
 use Botble\Setting\Forms\SettingForm;
 

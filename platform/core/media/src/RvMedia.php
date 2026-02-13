@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\File as ValidationFile;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Encoders\AutoEncoder;
@@ -434,7 +435,7 @@ class RvMedia
         if (! $this->isChunkUploadEnabled()) {
             if (! $skipValidation) {
                 $validator = Validator::make(['uploaded_file' => $fileUpload], [
-                    'uploaded_file' => 'required|mimes:' . $allowedMimeTypes,
+                    'uploaded_file' => ['required', ValidationFile::types(explode(',', $allowedMimeTypes))],
                 ]);
 
                 if ($validator->fails()) {

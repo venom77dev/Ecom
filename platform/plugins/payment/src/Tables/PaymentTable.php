@@ -23,7 +23,6 @@ use Illuminate\Support\Str;
 
 class PaymentTable extends TableAbstract
 {
-
     public function setup(): void
     {
         $this

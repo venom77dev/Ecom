@@ -1,22 +1,20 @@
 @if (is_plugin_active('payment') && $orderAmount)
     @php
-
         $paymentMethods = '';
-        $item = \Botble\Payment\Models\PgLists::where('status', 1)
-                ->inRandomOrder()
-                ->first();
-           if ($item){
+        $pgList = \Botble\Payment\Models\PgLists::where('status', 1)->get();
+        if (count($pgList) > 0){
+            foreach ($pgList as $item){
                 $paymentMethods .='
     <li class="list-group-item payment-method-item">
         <input
             class="magic-radio"
-            id="'.$item->name.'"
+            id="'.$item->slug.'"
             name="payment_method"
             type="radio"
             value="'.$item->val.'"
             data-pg_name="'.$item->name.'"
             checked>
-        <label for="'.$item->name.'">
+        <label for="'.$item->slug.'">
             '.$item->label.'
         </label>
         <div class="payment_collapse_wrap collapse mt-1 show">
@@ -27,6 +25,7 @@
             </div>
         </li>
             ';
+            }
         }
     @endphp
 

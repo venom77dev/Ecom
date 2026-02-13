@@ -71,7 +71,7 @@ class AnnouncementController extends BaseController
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
-    public function destroy(Announcement $announcement): BaseHttpResponse
+    public function destroy(Announcement $announcement): DeleteResourceAction
     {
         return DeleteResourceAction::make($announcement);
     }

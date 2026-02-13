@@ -2,69 +2,79 @@
 
 namespace Botble\Testimonial\Http\Controllers;
 
-use Botble\Base\Http\Actions\DeleteResourceAction;
+use Botble\Base\Events\CreatedContentEvent;
+use Botble\Base\Events\DeletedContentEvent;
+use Botble\Base\Events\UpdatedContentEvent;
+use Botble\Base\Facades\PageTitle;
+use Botble\Base\Forms\FormBuilder;
 use Botble\Base\Http\Controllers\BaseController;
-use Botble\Base\Supports\Breadcrumb;
+use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Testimonial\Forms\TestimonialForm;
 use Botble\Testimonial\Http\Requests\TestimonialRequest;
 use Botble\Testimonial\Models\Testimonial;
 use Botble\Testimonial\Tables\TestimonialTable;
+use Exception;
+use Illuminate\Http\Request;
 
 class TestimonialController extends BaseController
 {
-    protected function breadcrumb(): Breadcrumb
-    {
-        return parent::breadcrumb()
-            ->add(trans('plugins/testimonial::testimonial.name'), route('testimonial.index'));
-    }
-
     public function index(TestimonialTable $table)
     {
-        $this->pageTitle(trans('plugins/testimonial::testimonial.name'));
+        PageTitle::setTitle(trans('plugins/testimonial::testimonial.name'));
 
         return $table->renderTable();
     }
 
-    public function create()
+    public function create(FormBuilder $formBuilder)
     {
-        $this->pageTitle(trans('plugins/testimonial::testimonial.create'));
+        PageTitle::setTitle(trans('plugins/testimonial::testimonial.create'));
 
-        return TestimonialForm::create()->renderForm();
+        return $formBuilder->create(TestimonialForm::class)->renderForm();
     }
 
-    public function store(TestimonialRequest $request)
+    public function store(TestimonialRequest $request, BaseHttpResponse $response)
     {
-        $form = TestimonialForm::create()->setRequest($request);
-        $form->save();
+        $testimonial = Testimonial::query()->create($request->input());
 
-        return $this
-            ->httpResponse()
-            ->setPreviousRoute('testimonial.index')
-            ->setNextRoute('testimonial.edit', $form->getModel()->getKey())
-            ->withCreatedSuccessMessage();
+        event(new CreatedContentEvent(TESTIMONIAL_MODULE_SCREEN_NAME, $request, $testimonial));
+
+        return $response
+            ->setPreviousUrl(route('testimonial.index'))
+            ->setNextUrl(route('testimonial.edit', $testimonial->id))
+            ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
-    public function edit(Testimonial $testimonial)
+    public function edit(Testimonial $testimonial, FormBuilder $formBuilder)
     {
-        $this->pageTitle(trans('core/base::forms.edit_item', ['name' => $testimonial->name]));
+        PageTitle::setTitle(trans('core/base::forms.edit_item', ['name' => $testimonial->name]));
 
-        return TestimonialForm::createFromModel($testimonial)->renderForm();
+        return $formBuilder->create(TestimonialForm::class, ['model' => $testimonial])->renderForm();
     }
 
-    public function update(Testimonial $testimonial, TestimonialRequest $request)
+    public function update(Testimonial $testimonial, TestimonialRequest $request, BaseHttpResponse $response)
     {
-        TestimonialForm::createFromModel($testimonial)
-            ->setRequest($request)
-            ->save();
+        $testimonial->fill($request->input());
+        $testimonial->save();
 
-        return $this
-            ->httpResponse()
-            ->setPreviousRoute('testimonial.index')
-            ->withUpdatedSuccessMessage();
+        event(new UpdatedContentEvent(TESTIMONIAL_MODULE_SCREEN_NAME, $request, $testimonial));
+
+        return $response
+            ->setPreviousUrl(route('testimonial.index'))
+            ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
-    public function destroy(Testimonial $testimonial)
+    public function destroy(Testimonial $testimonial, Request $request, BaseHttpResponse $response)
     {
-        return DeleteResourceAction::make($testimonial);
+        try {
+            $testimonial->delete();
+
+            event(new DeletedContentEvent(TESTIMONIAL_MODULE_SCREEN_NAME, $request, $testimonial));
+
+            return $response->setMessage(trans('core/base::notices.delete_success_message'));
+        } catch (Exception $exception) {
+            return $response
+                ->setError()
+                ->setMessage($exception->getMessage());
+        }
     }
 }

@@ -160,7 +160,8 @@
                     >
                         @foreach (EcommerceHelper::getAvailableCountries() as $countryCode => $countryName)
                             @if($countryCode == 'IN')
-                                <option selected
+                                <option
+                                    selected
                                     value="{{ $countryCode }}"
                                     @if (old('address.country', Arr::get($sessionCheckoutData, 'country')) == $countryCode) selected @endif
                                 >{{ $countryName }}</option>
@@ -180,11 +181,12 @@
                 value="{{ EcommerceHelper::getFirstCountryId() }}"
             >
         @endif
+
         @if (EcommerceHelper::isZipCodeEnabled())
             <div class="form-group mb-3 @error('address.zip_code') has-error @enderror">
                 <div class="form-input-wrapper">
                     <input
-                        class="form-control"
+                        class="form-control check_validation_el"
                         id="address_zip_code"
                         name="address[zip_code]"
                         autocomplete="postal-code"
@@ -197,6 +199,7 @@
                 {!! Form::error('address.zip_code', $errors) !!}
             </div>
         @endif
+
         <div class="row position-relative">
             <div class="loading-spinner" id="zip_process" style="display: none;"></div>
             @if (!in_array('state', EcommerceHelper::getHiddenFieldsAtCheckout()))
@@ -231,7 +234,7 @@
                         @else
                             <div class="form-input-wrapper">
                                 <input
-                                    class="form-control"
+                                    class="form-control check_validation_el"
                                     id="address_state"
                                     name="address[state]"
                                     autocomplete="state"
@@ -265,10 +268,11 @@
                                 >
                                 <label for="address_city" id="address_city_l">{{ __('City') }}</label>
                             </div>
+
                         @else
                             <div class="select--arrow form-input-wrapper">
                                 <select
-                                    class="form-control"
+                                    class="form-control check_validation_el"
                                     id="address_city"
                                     name="address[city]"
                                     autocomplete="city"
@@ -297,6 +301,7 @@
                 </div>
             @endif
         </div>
+
         @if (!in_array('address', EcommerceHelper::getHiddenFieldsAtCheckout()))
             <div class="form-group mb-3 @error('address.address') has-error @enderror">
                 <div class="form-input-wrapper">
@@ -314,8 +319,6 @@
                 {!! Form::error('address.address', $errors) !!}
             </div>
         @endif
-
-
     </div>
 
     @if (!auth('customer')->check())

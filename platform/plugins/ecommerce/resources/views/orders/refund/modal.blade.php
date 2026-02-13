@@ -156,4 +156,3 @@
         :value="$order->payment->refund_note"
     />
 </x-core::form>
-

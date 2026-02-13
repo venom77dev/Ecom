@@ -11,6 +11,8 @@ use Botble\Base\Supports\DashboardMenu as DashboardMenuSupport;
 use Botble\Base\Traits\LoadAndPublishDataTrait;
 use Botble\DataSynchronize\PanelSections\ExportPanelSection;
 use Botble\DataSynchronize\PanelSections\ImportPanelSection;
+use Botble\Ecommerce\AdsTracking\FacebookPixel;
+use Botble\Ecommerce\AdsTracking\GoogleTagManager;
 use Botble\Ecommerce\Facades\Cart;
 use Botble\Ecommerce\Facades\Currency as CurrencyFacade;
 use Botble\Ecommerce\Facades\EcommerceHelper;
@@ -23,7 +25,6 @@ use Botble\Ecommerce\Forms\Fronts\Auth\ForgotPasswordForm;
 use Botble\Ecommerce\Forms\Fronts\Auth\LoginForm;
 use Botble\Ecommerce\Forms\Fronts\Auth\RegisterForm;
 use Botble\Ecommerce\Forms\Fronts\Auth\ResetPasswordForm;
-use Botble\Ecommerce\GoogleAnalytics\GoogleTagManager;
 use Botble\Ecommerce\Http\Middleware\CaptureCouponMiddleware;
 use Botble\Ecommerce\Http\Middleware\CaptureFootprintsMiddleware;
 use Botble\Ecommerce\Http\Middleware\RedirectIfCustomer;
@@ -340,6 +341,7 @@ class EcommerceServiceProvider extends ServiceProvider
         $this->app->singleton(ProductCrossSalePriceService::class);
 
         $this->app->singleton(GoogleTagManager::class);
+        $this->app->singleton(FacebookPixel::class);
 
         Request::macro('footprint', function () {
             return app(FootprinterInterface::class)->footprint(app()->make('request'));

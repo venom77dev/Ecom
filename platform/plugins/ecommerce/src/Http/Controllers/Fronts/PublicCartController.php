@@ -3,11 +3,12 @@
 namespace Botble\Ecommerce\Http\Controllers\Fronts;
 
 use Botble\Base\Http\Controllers\BaseController;
+use Botble\Ecommerce\AdsTracking\FacebookPixel;
+use Botble\Ecommerce\AdsTracking\GoogleTagManager;
 use Botble\Ecommerce\Enums\DiscountTypeEnum;
 use Botble\Ecommerce\Facades\Cart;
 use Botble\Ecommerce\Facades\EcommerceHelper;
 use Botble\Ecommerce\Facades\OrderHelper;
-use Botble\Ecommerce\GoogleAnalytics\GoogleTagManager;
 use Botble\Ecommerce\Http\Requests\CartRequest;
 use Botble\Ecommerce\Http\Requests\UpdateCartRequest;
 use Botble\Ecommerce\Models\Discount;
@@ -173,6 +174,12 @@ class PublicCartController extends BaseController
         ];
 
         app(GoogleTagManager::class)->addToCart(
+            $originalProduct,
+            $cartItem['qty'],
+            $cartItem['subtotal'],
+        );
+
+        app(FacebookPixel::class)->addToCart(
             $originalProduct,
             $cartItem['qty'],
             $cartItem['subtotal'],

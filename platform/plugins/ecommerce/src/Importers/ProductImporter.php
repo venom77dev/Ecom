@@ -35,8 +35,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use Maatwebsite\Excel\Concerns\SkipsFailures;
-use Maatwebsite\Excel\Validators\Failure;
 
 class ProductImporter extends Importer implements WithMapping
 {
@@ -61,8 +59,6 @@ class ProductImporter extends Importer implements WithMapping
     protected Collection|Model $productAttributeSets;
 
     protected string $importType = 'all';
-
-    protected int $rowCurrent = 1;
 
     protected Collection $allTaxes;
 
@@ -178,7 +174,7 @@ class ProductImporter extends Importer implements WithMapping
             ImportColumn::make('cost_per_item')
                 ->rules(['nullable', 'numeric', 'min:0'], trans('plugins/ecommerce::products.import.rules.nullable_numeric_min', ['attribute' => 'Cost per item'])),
             ImportColumn::make('barcode')
-                ->rules(['nullable', 'string', 'max:50'], trans('plugins/ecommerce::products.import.rules.nullable_string_max', ['attribute' => 'Barcode', 'max' => 50])),
+                ->rules(['nullable', 'string', 'unique:ec_products,barcode', 'max:50'], trans('plugins/ecommerce::products.import.rules.nullable_string_max', ['attribute' => 'Barcode', 'max' => 50])),
             ImportColumn::make('content')
                 ->rules(['nullable', 'string'], trans('plugins/ecommerce::products.import.rules.nullable_string', ['attribute' => 'Content'])),
             ImportColumn::make('tags')
@@ -414,7 +410,7 @@ class ProductImporter extends Importer implements WithMapping
 
     public function map(mixed $row): array
     {
-        ++$this->rowCurrent;
+        $this->currentRow++;
         $row = $this->mapLocalization($row);
         $row = $this->setCategoriesToRow($row);
         $row = $this->setBrandToRow($row);
@@ -483,15 +479,13 @@ class ProductImporter extends Importer implements WithMapping
 
         $product->productAttributeSets()->sync($attributeSets);
 
-        $collect = collect([
+        $this->onSuccess([
             'name' => $product->name,
             'slug' => $request->input('slug'),
             'import_type' => 'product',
             'attribute_sets' => $attributeSets,
             'model' => $product,
         ]);
-
-        $this->onSuccess($collect);
 
         return $product;
     }
@@ -646,13 +640,11 @@ class ProductImporter extends Importer implements WithMapping
         $request->merge($row);
 
         if (! $product) {
-            $failures[] = new Failure(
-                $this->rowCurrent,
+            $this->onFailure(
+                $this->currentRow,
                 'Name',
-                [__('Product name ":name" does not exists', ['name' => $request->input('name')])],
-                []
+                [__('Product name ":name" does not exists', ['name' => $request->input('name')])]
             );
-            $this->onFailure(...$failures);
 
             return null;
         }
@@ -662,22 +654,15 @@ class ProductImporter extends Importer implements WithMapping
         $result = ProductVariation::getVariationByAttributesOrCreate($product->getKey(), $addedAttributes);
 
         if (! $result['created']) {
-            $failures[] = new Failure(
-                $this->rowCurrent,
+            $this->onFailure(
+                $this->currentRow,
                 'variation',
                 [
                     trans('plugins/ecommerce::products.form.variation_existed') . ' ' . trans(
                         'plugins/ecommerce::products.form.product_id'
                     ) . ': ' . $product->getKey(),
                 ],
-                []
             );
-
-            info(BaseHelper::jsonEncodePrettify([
-                'id' => $product->getKey(),
-                'addedAttributes' => $addedAttributes,
-            ]));
-            $this->onFailure(...$failures);
 
             return null;
         }
@@ -779,15 +764,13 @@ class ProductImporter extends Importer implements WithMapping
 
         $this->createTranslations($productRelatedToVariation, $row);
 
-        $this->onSuccess(
-            collect([
-                'name' => $variation->name,
-                'slug' => '',
-                'import_type' => 'variation',
-                'attribute_sets' => [],
-                'model' => $variation,
-            ])
-        );
+        $this->onSuccess([
+            'name' => $variation->name,
+            'slug' => '',
+            'import_type' => 'variation',
+            'attribute_sets' => [],
+            'model' => $variation,
+        ]);
 
         return $variation;
     }
@@ -987,7 +970,7 @@ class ProductImporter extends Importer implements WithMapping
 
                 break;
             case 'bool':
-                if (Str::lower($value) == 'false' || $value == '0' || Str::lower($value) == 'no') {
+                if (is_string($value) && (Str::lower($value) == 'false' || $value == '0' || Str::lower($value) == 'no')) {
                     $value = false;
                 }
                 $value = (bool) $value;
@@ -1014,8 +997,8 @@ class ProductImporter extends Importer implements WithMapping
 
         if ($value && $key == 'barcode') {
             if ($barcode = $this->barcodes->firstWhere('value', $value)) {
-                $failures[] = new Failure(
-                    $this->rowCurrent,
+                $this->onFailure(
+                    $this->currentRow,
                     'Barcode',
                     [
                         __(
@@ -1025,9 +1008,8 @@ class ProductImporter extends Importer implements WithMapping
                     ],
                     [$value]
                 );
-                $this->onFailure(...$failures);
             } else {
-                $this->barcodes->push(['row' => $this->rowCurrent, 'value' => $value]);
+                $this->barcodes->push(['row' => $this->currentRow, 'value' => $value]);
             }
         }
 

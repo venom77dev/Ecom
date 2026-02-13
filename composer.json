@@ -29,12 +29,12 @@
         "botble/widget": "*@dev",
         "doctrine/dbal": "^3.8",
         "guzzlehttp/guzzle": "^7.7",
+        "jenssegers/agent": "^2.6",
         "laravel/framework": "^10.24",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.9",
         "predis/predis": "^2.2",
-        "wikimedia/composer-merge-plugin": "^2.1",
-        "jenssegers/agent": "^2.6"
+        "wikimedia/composer-merge-plugin": "^2.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
@@ -124,3 +124,4 @@
         }
     ]
 }
+
