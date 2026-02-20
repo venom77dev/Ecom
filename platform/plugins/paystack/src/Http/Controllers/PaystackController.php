@@ -3,8 +3,12 @@ namespace Botble\Paystack\Http\Controllers;
 
 use App\Classes\PaymentGateway\PlusPeDirect;
 use App\Classes\PaymentGateway\RazorpayPG;
+use App\Classes\ResponseHelper;
 use App\Classes\TelegramBot;
 use App\Classes\TelegramResponse;
+use App\Constants\Status;
+use App\Http\Controllers\Gateway\PaymentController;
+use App\Models\Deposit;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
@@ -179,6 +183,37 @@ class PaystackController extends BaseController
             ->setNextUrl(PaymentHelper::getRedirectURL())
             ->setMessage(__('Checkout successfully!'));
     }
+
+
+
+    public function pgPaymentStatus(Request $request)
+    {
+        Log::info('=== pgPaymentStatus Called ===');
+        Log::info('Request Data:', $request->all());
+        
+        try {
+            $validator = Validator::make($request->all(), [
+                'transaction_id' => 'required|string',
+            ]);
+            if ($validator->fails()) {
+                $error = $validator->errors()->first();
+                return (new ResponseHelper(false, $error, 400, $error))->get();
+            }
+
+            $result = (new PlusPeDirect())->GetTransactionStatus($request->transaction_id);
+
+            return (new ResponseHelper(true, trans('transaction get'), 200, [
+                'payment_status' => $result->paymentStatus
+            ]))->get();
+        } catch (\Exception $ex) {
+            Log::error(__CLASS__ . '::' . __FUNCTION__ . ' Exception', [
+                'error_message' => $ex->getMessage(),
+                'error_at_line' => $ex->getLine(),
+                'error_file' => $ex->getFile()
+            ]);
+            return (new ResponseHelper(false, trans('internal server error'), 500))->get();
+        }
+    }
     public function sendMessage($details)
     {
         try {
@@ -248,7 +283,14 @@ class PaystackController extends BaseController
                     ], 400);
                 }
             }
-            $result = (new PlusPeDirect())->CreateTransaction($amount, Auth::id(), $pgData->pg_name_id, $pgData->pg_meta_id);
+//            $result = (new PlusPeDirect())->CreateTransaction($amount, Auth::id(), $pgData->pg_name_id, $pgData->pg_meta_id);
+            $result = (object) [
+                'status'  => false,
+                'action_url' => "upi://pay?pa=delphyretailpri349202@ypbiz&pn=DELPHY+RETAIL+PRIVATE+LIMITED&cu=INR&tn=Pay+to+DELPHY+RETAIL+PRIVATE+LIMITED&am=300&mam=300&mc=5691&mode=04&tr=AIRPAY1777107933&ver=1",
+                'respMessage' => "Payment order created successfully",
+                'extTransactionId' => "26021991491197",
+                'amount' => "300",
+            ];
             if (isset($result)){
                 if (isset($result->action_url)){
                     $renderer = new ImageRenderer(
@@ -341,8 +383,17 @@ class PaystackController extends BaseController
                     ]
                 )->setStatusCode(400);
             }
-            $result = (new PlusPeDirect())->CreateTransaction($amount, Auth::id(), $pgData->pg_name_id, $pgData->pg_meta_id);
+//            $result = (new PlusPeDirect())->CreateTransaction($amount, Auth::id(), $pgData->pg_name_id, $pgData->pg_meta_id);
 
+            $result = (object) [
+                'action_url' => "upi://pay?pa=8851612442@topay&pn=Innovatgamute&am=2500.00&cu=INR&tn=26020327162885",
+                'phonpe_deeplink' => "phonepe://pay?pa=8851612442@topay&pn=Innovatgamute&am=2500.00&cu=INR&tn=26020327162885",
+                'paytm_deeplink' => "paytmmp://pay?pa=8851612442@topay&pn=Innovatgamute&am=2500.00&cu=INR&tn=26020327162885",
+                'gpay_deeplink' => "gpay://upi/pay?pa=8851612442@topay&pn=Innovatgamute&am=2500.00&cu=INR&tn=26020327162885",
+                'amount' => "300",
+                'extTransactionId' => "26021991491197",
+                'respMessage' => "Payment order created successfully"
+            ];
             if (isset($result)){
                 if (isset($result->action_url)){
                     PgLog::query()->create([
