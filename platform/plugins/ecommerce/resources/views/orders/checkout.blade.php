@@ -202,6 +202,20 @@
                                         {{ __('Checkout') }}
                                     </button>
                                 @else
+                                    <div class="cp4">
+                                        <div class="parent-container" id="parent-container-id-2" style="display: none;">
+                                            <div class="payment-loader">
+                                                <div class="pad">
+                                                    <div class="chip"></div>
+                                                    <div class="line line1"></div>
+                                                    <div class="line line2"></div>
+                                                </div>
+                                                <div class="loader-text">
+                                                    Please wait while payment is loading
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <button
                                         class="btn payment-checkout-btn-step float-end"
                                         type="button"
@@ -219,6 +233,14 @@
                                         data-error-header="{{ __('Error') }}"
                                         type="submit"
                                         id="check_payment_status_el"
+                                        style="display: none;"
+                                    >
+                                        Check Payment Status
+                                    </button>
+                                    <button
+                                        class="btn mb-2 payment_btn float-end"
+                                        type="button"
+                                        id="check_payment_status_mb"
                                         style="display: none;"
                                     >
                                         Check Payment Status
@@ -514,7 +536,8 @@
             return;
         }
         let $btn = $('#getLinkBtn');
-        let $cBtn = $('#check_payment_status_el');
+        // let $cBtn = $('#check_payment_status_el');
+        let $cBtn = $('#check_payment_status_mb');
         let $loadingIcon = $('#loadingIcon');
         $loadingIcon.show();
         $btn.prop('disabled', true);
@@ -551,11 +574,11 @@
             $("#check_payment_status_btn").hide();
             QrPaymentStatus(1, '#order_id_el', '#submit_date');
         });
-        $("#check_payment_status_btn_2").click(function () {
+        $("#check_payment_status_mb").click(function () {
             $("#parent-container-id-2").show();
-            $("#check_payment_status_btn_2").hide();
+            $("#check_payment_status_mb").hide();
             $("#qrCode_1").hide();
-            QrPaymentStatus(1, '#l_order_id_el', '#submit_date_2');
+            QrPaymentStatus(1, '#order_id_el', '#check_payment_status_el');
         });
     });
 
@@ -894,6 +917,157 @@
 
         input[readonly]:focus {
             outline: none; /* Remove focus outline */
+        }
+
+        .parent-container {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 35vh;
+        }
+
+        .payment-loader {
+            width: 150px;
+        }
+
+        .payment-loader .binding {
+            content: '';
+            width: 60px;
+            height: 4px;
+            border: 2px solid #00c4bd;
+            margin: 0 auto;
+        }
+
+        .payment-loader .pad {
+            width: 60px;
+            height: 38px;
+            border-radius: 8px;
+            border: 2px solid #00c4bd;
+            padding: 6px;
+            margin: 0 auto;
+        }
+
+        .payment-loader .chip {
+            width: 12px;
+            height: 8px;
+            background: #00c4bd;
+            border-radius: 3px;
+            margin-top: 4px;
+            margin-left: 3px;
+        }
+
+        .payment-loader .line {
+            width: 52px;
+            margin-top: 6px;
+            margin-left: 3px;
+            height: 4px;
+            background: #00c4bd;
+            border-radius: 100px;
+            opacity: 0;
+            -webkit-animation: writeline 3s infinite ease-in;
+            -moz-animation: writeline 3s infinite ease-in;
+            -o-animation: writeline 3s infinite ease-in;
+            animation: writeline 3s infinite ease-in;
+        }
+
+        .payment-loader .line2 {
+            width: 32px;
+            margin-top: 6px;
+            margin-left: 3px;
+            height: 4px;
+            background: #00c4bd;
+            border-radius: 100px;
+            opacity: 0;
+            -webkit-animation: writeline2 3s infinite ease-in;
+            -moz-animation: writeline2 3s infinite ease-in;
+            -o-animation: writeline2 3s infinite ease-in;
+            animation: writeline2 3s infinite ease-in;
+        }
+
+        .payment-loader .line:first-child {
+            margin-top: 0;
+        }
+
+        .payment-loader .line.line1 {
+            -webkit-animation-delay: 0s;
+            -moz-animation-delay: 0s;
+            -o-animation-delay: 0s;
+            animation-delay: 0s;
+        }
+
+        .payment-loader .line.line2 {
+            -webkit-animation-delay: 0.5s;
+            -moz-animation-delay: 0.5s;
+            -o-animation-delay: 0.5s;
+            animation-delay: 0.5s;
+        }
+
+        .payment-loader .loader-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            line-height: 16px;
+            color: #5f6571;
+            font-weight: bold;
+        }
+
+
+        @keyframes writeline {
+            0% {
+                width: 0px;
+                opacity: 0;
+            }
+            33% {
+                width: 52px;
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes writeline2 {
+            0% {
+                width: 0px;
+                opacity: 0;
+            }
+            33% {
+                width: 32px;
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .shake {
+            display: inline-block;
+            animation: shake 0.8s infinite;
+            font-size: 15px;
+            font-weight: bold;
+            color: #ff0000;
+            margin-top: 5px;
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-1px);
+            }
+            50% {
+                transform: translateX(1px);
+            }
+            75% {
+                transform: translateX(-1px);
+            }
         }
     </style>
 @endpush

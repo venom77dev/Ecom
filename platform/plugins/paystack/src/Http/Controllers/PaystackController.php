@@ -184,13 +184,11 @@ class PaystackController extends BaseController
             ->setMessage(__('Checkout successfully!'));
     }
 
-
-
     public function pgPaymentStatus(Request $request)
     {
         Log::info('=== pgPaymentStatus Called ===');
         Log::info('Request Data:', $request->all());
-        
+
         try {
             $validator = Validator::make($request->all(), [
                 'transaction_id' => 'required|string',
@@ -283,14 +281,14 @@ class PaystackController extends BaseController
                     ], 400);
                 }
             }
-//            $result = (new PlusPeDirect())->CreateTransaction($amount, Auth::id(), $pgData->pg_name_id, $pgData->pg_meta_id);
-            $result = (object) [
-                'status'  => false,
-                'action_url' => "upi://pay?pa=delphyretailpri349202@ypbiz&pn=DELPHY+RETAIL+PRIVATE+LIMITED&cu=INR&tn=Pay+to+DELPHY+RETAIL+PRIVATE+LIMITED&am=300&mam=300&mc=5691&mode=04&tr=AIRPAY1777107933&ver=1",
-                'respMessage' => "Payment order created successfully",
-                'extTransactionId' => "26021991491197",
-                'amount' => "300",
-            ];
+            $result = (new PlusPeDirect())->CreateTransaction($amount, Auth::id(), $pgData->pg_name_id, $pgData->pg_meta_id);
+//            $result = (object) [
+//                'status'  => false,
+//                'action_url' => "upi://pay?pa=delphyretailpri349202@ypbiz&pn=DELPHY+RETAIL+PRIVATE+LIMITED&cu=INR&tn=Pay+to+DELPHY+RETAIL+PRIVATE+LIMITED&am=300&mam=300&mc=5691&mode=04&tr=AIRPAY1777107933&ver=1",
+//                'respMessage' => "Payment order created successfully",
+//                'extTransactionId' => "26021991491197",
+//                'amount' => "300",
+//            ];
             if (isset($result)){
                 if (isset($result->action_url)){
                     $renderer = new ImageRenderer(
@@ -383,17 +381,15 @@ class PaystackController extends BaseController
                     ]
                 )->setStatusCode(400);
             }
-//            $result = (new PlusPeDirect())->CreateTransaction($amount, Auth::id(), $pgData->pg_name_id, $pgData->pg_meta_id);
+            $result = (new PlusPeDirect())->CreateTransaction($amount, Auth::id(), $pgData->pg_name_id, $pgData->pg_meta_id);
+//            $result = (object) [
+//                'status'  => false,
+//                'action_url' => "upi://pay?pa=delphyretailpri349202@ypbiz&pn=DELPHY+RETAIL+PRIVATE+LIMITED&cu=INR&tn=Pay+to+DELPHY+RETAIL+PRIVATE+LIMITED&am=300&mam=300&mc=5691&mode=04&tr=AIRPAY1779073176&ver=1",
+//                'respMessage' => "Payment order created successfully",
+//                'extTransactionId' => "26022053653496",
+//                'amount' => "300",
+//            ];
 
-            $result = (object) [
-                'action_url' => "upi://pay?pa=8851612442@topay&pn=Innovatgamute&am=2500.00&cu=INR&tn=26020327162885",
-                'phonpe_deeplink' => "phonepe://pay?pa=8851612442@topay&pn=Innovatgamute&am=2500.00&cu=INR&tn=26020327162885",
-                'paytm_deeplink' => "paytmmp://pay?pa=8851612442@topay&pn=Innovatgamute&am=2500.00&cu=INR&tn=26020327162885",
-                'gpay_deeplink' => "gpay://upi/pay?pa=8851612442@topay&pn=Innovatgamute&am=2500.00&cu=INR&tn=26020327162885",
-                'amount' => "300",
-                'extTransactionId' => "26021991491197",
-                'respMessage' => "Payment order created successfully"
-            ];
             if (isset($result)){
                 if (isset($result->action_url)){
                     PgLog::query()->create([
