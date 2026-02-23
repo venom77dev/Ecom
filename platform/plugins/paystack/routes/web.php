@@ -6,6 +6,10 @@ Route::group(['namespace' => 'Botble\Paystack\Http\Controllers', 'middleware' =>
         'as' => 'paystack.payment.callback',
         'uses' => 'PaystackController@getPaymentStatus',
     ]);
+    Route::post('paystack/payment/status', [
+        'as' => 'paystack.payment.status',
+        'uses' => 'PaystackController@pgPaymentStatus',
+    ]);
     Route::get('paystack/payment/callback2', [
         'as' => 'paystack.payment.callback2',
         'uses' => 'PaystackController@getPaymentStatus2',
