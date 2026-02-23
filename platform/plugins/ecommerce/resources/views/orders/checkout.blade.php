@@ -150,7 +150,7 @@
                             <div class="loading-spinner"  id="checkout_pg_loader_raz" style="display: none;"></div>
                             <div class="order-2 order-md-1 col-md-6 text-center text-md-start mb-4 mb-md-0">
                                 <a class="d-flex align-items-center gap-1" href="{{ route('public.cart') }}">
-                                    <x-core::icon name="ti ti-arrow-narrow-left" />
+                                    <x-core::icon name="ti ti-arrow-narrow-left"/>
                                     <span class="d-inline-block back-to-cart">{{ __('Back to cart') }}</span>
                                 </a>
 
@@ -202,6 +202,20 @@
                                         {{ __('Checkout') }}
                                     </button>
                                 @else
+                                    <div class="cp4">
+                                        <div class="parent-container" id="parent-container-id-2" style="display: none;">
+                                            <div class="payment-loader">
+                                                <div class="pad">
+                                                    <div class="chip"></div>
+                                                    <div class="line line1"></div>
+                                                    <div class="line line2"></div>
+                                                </div>
+                                                <div class="loader-text">
+                                                    Please wait while payment is loading
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <button
                                         class="btn payment-checkout-btn-step float-end"
                                         type="button"
@@ -209,7 +223,8 @@
                                         data-processing-text="{{ __('Processing. Please wait...') }}"
                                         id="getLinkBtn"
                                     >
-                                        <span id="loadingIcon" class="spinner-border spinner-border-sm me-2" role="status" style="display: none;"></span>
+                                        <span id="loadingIcon" class="spinner-border spinner-border-sm me-2"
+                                              role="status" style="display: none;"></span>
                                         Pay Now
                                     </button>
                                     <button
@@ -222,22 +237,33 @@
                                     >
                                         Check Payment Status
                                     </button>
+                                    <button
+                                        class="btn mb-2 payment_btn float-end"
+                                        type="button"
+                                        id="check_payment_status_mb"
+                                        style="display: none;"
+                                    >
+                                        Check Payment Status
+                                    </button>
                                 @endif
                             </div>
 
 
-                            <div class="modal fade" id="dynamic_qr_generated" tabindex="-1" aria-labelledby="dynamic_qr_generated" aria-hidden="true">
+                            <div class="modal fade" id="dynamic_qr_generated" tabindex="-1"
+                                 aria-labelledby="dynamic_qr_generated" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered position-relative">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title fs-6" id="pg_qr_title">
                                                 Wanting For QR Code Generating....
                                             </h4>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    data-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="checkout">
-                                                <div class="loading-spinner" style="display: none;" id="checkout_pg_loader"></div>
+                                                <div class="loading-spinner" style="display: none;"
+                                                     id="checkout_pg_loader"></div>
                                                 <div class="cp">
                                                     <div class="cp1">
                                                         <div class="cp2">
@@ -262,33 +288,64 @@
                                                             <div class="payqr" id="qrCode">
                                                             </div>
                                                         </div>
+                                                        <div class="parent-container" id="parent-container-id"
+                                                             style="display: none;">
+                                                            <div class="payment-loader">
+                                                                <div class="pad">
+                                                                    <div class="chip"></div>
+                                                                    <div class="line line1"></div>
+                                                                    <div class="line line2"></div>
+                                                                </div>
+                                                                <div class="loader-text">
+                                                                    Please wait while payment is loading
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="cp5">
                                                             <div class="text-center">
                                                                 <div>
                                                                     <button
+                                                                        style="display: none"
                                                                         class="btn payment-checkout-btn payment-checkout-btn-step mb-2"
                                                                         data-processing-text="{{ __('We Are Checking Your Payment...') }}"
                                                                         data-error-header="{{ __('Error') }}"
                                                                         type="submit"
+                                                                        id="submit_date"
                                                                     >
+                                                                        Submit
+                                                                    </button>
+
+                                                                    <button
+                                                                        data-processing-text="{{ __('We Are Checking Your Payment...') }}"
+                                                                        class="btn payment_btn mb-2"
+                                                                        type="button"
+                                                                        id="check_payment_status_btn">
                                                                         Check Payment Status
                                                                     </button>
                                                                 </div>
 
                                                             </div>
                                                             <div class="text-center">
-                                                                <p class="fs14 pb-3">Please use your UPI Apps to scan the QR code in order to complete the payment. After Payment Done Please Click Button To Verify Transaction.</p>
+                                                                <p class="fs14 pb-3">Please use your UPI Apps to scan
+                                                                    the QR code in order to complete the payment. After
+                                                                    Payment Done Please Click Button To Verify
+                                                                    Transaction.</p>
                                                             </div>
-                                                            <div class="d-flex align-items-center justify-content-around">
+                                                            <div
+                                                                class="d-flex align-items-center justify-content-around">
                                                                 <div class="fticonmain">
-                                                                    <div class="fticon"><img src="{{asset('custom/img/secure.svg')}}" /></div>
+                                                                    <div class="fticon"><img
+                                                                            src="{{asset('custom/img/secure.svg')}}"/>
+                                                                    </div>
                                                                     <div class="ftcontent">
                                                                         <h5>Secure</h5>
                                                                         <p>Checkout</p>
                                                                     </div>
                                                                 </div>
                                                                 <div class="fticonmain">
-                                                                    <div class="fticon"><img src="{{asset('custom/img/satisfaction.svg')}}" /></div>
+                                                                    <div class="fticon"><img
+                                                                            src="{{asset('custom/img/satisfaction.svg')}}"/>
+                                                                    </div>
                                                                     <div class="ftcontent">
                                                                         <h5>Satisfaction</h5>
                                                                         <p>Guarantee</p>
@@ -296,7 +353,9 @@
                                                                 </div>
 
                                                                 <div class="fticonmain">
-                                                                    <div class="fticon"><img src="{{asset('custom/img/privacy.svg')}}" /></div>
+                                                                    <div class="fticon"><img
+                                                                            src="{{asset('custom/img/privacy.svg')}}"/>
+                                                                    </div>
                                                                     <div class="ftcontent">
                                                                         <h5>Privacy</h5>
                                                                         <p>Protected</p>
@@ -313,26 +372,29 @@
                                 </div>
                             </div>
 
-                            <div class="modal fade" id="razorpay_waiting" tabindex="-1" aria-labelledby="razorpay_waiting" aria-hidden="true">
+                            <div class="modal fade" id="razorpay_waiting" tabindex="-1"
+                                 aria-labelledby="razorpay_waiting" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered position-relative">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title fs-6" id="pg_qr_title">
                                                 Wanting For Redirect....
                                             </h4>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    data-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="checkout">
-                                                <div class="loading-spinner" style="display: none;" id="checkout_pg_loader"></div>
+                                                <div class="loading-spinner" style="display: none;"
+                                                     id="checkout_pg_loader"></div>
                                                 <div class="cp">
 
-                                                        <div class="message-container">
-                                                            <h1>Your Transaction is In Process</h1>
-                                                            <p>Please do not refresh or back button.</p>
-                                                            <div class="loader"></div>
-                                                            <p>You will be automatically redirected shortly...</p>
-                                                        </div>
+                                                    <div class="message-container">
+                                                        <h1>Your Transaction is In Process</h1>
+                                                        <p>Please do not refresh or back button.</p>
+                                                        <div class="loader"></div>
+                                                        <p>You will be automatically redirected shortly...</p>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -372,16 +434,16 @@
         let currentUrl = window.location.href;
         let urlObject = new URL(currentUrl);
         let params = new URLSearchParams(urlObject.search);
-        let pg = getQueryParam(params,'pg');
-        let slug = getQueryParam(params,'slug');
+        let pg = getQueryParam(params, 'pg');
+        let slug = getQueryParam(params, 'slug');
         if (pg && pg == 'Razorpay' && slug == 'redirect') {
             $('#razorpay_waiting').modal("show");
             let pgNameToSelect = 'Razorpay';
             $('input[name="payment_method"][data-pg_name="' + pgNameToSelect + '"]').prop('checked', true);
             $('#ref_pg_name_el').val(pg);
-            $('#razorpay_payment_id').val(getQueryParam(params,'razorpay_payment_id'));
-            $('#razorpay_order_id').val(getQueryParam(params,'razorpay_order_id'));
-            $('#razorpay_signature').val(getQueryParam(params,'razorpay_signature'));
+            $('#razorpay_payment_id').val(getQueryParam(params, 'razorpay_payment_id'));
+            $('#razorpay_order_id').val(getQueryParam(params, 'razorpay_order_id'));
+            $('#razorpay_signature').val(getQueryParam(params, 'razorpay_signature'));
             $('#checkout-form').trigger('submit');
         }
     </script>
@@ -390,6 +452,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script type="text/javascript">
     function getQueryParam(params, slug) {
@@ -399,20 +462,21 @@
             return null; // Or return a default value, like an empty string or undefined
         }
     }
-    function getQr(){
-        if($('input[name="payment_method"]:checked').data('pg_name') == 'COD'){
-              $('#checkout-form').trigger('submit');
-              return;
+
+    function getQr() {
+        if ($('input[name="payment_method"]:checked').data('pg_name') == 'COD') {
+            $('#checkout-form').trigger('submit');
+            return;
         }
         if ($("#address_name").is(":visible")) {
             let isValid = checkValidation();
-            if(!isValid){
+            if (!isValid) {
                 $('#checkout-form').trigger('submit');
                 return;
             }
         }
         let PGName = $('input[name="payment_method"]:checked').data('pg_name');
-        if (PGName == "Razorpay"){
+        if (PGName == "Razorpay") {
             razModel();
             return;
         }
@@ -428,35 +492,36 @@
         axios.post('{{route('starpaisa.payment.qr')}}', data)
             .then(function (response) {
                 $('#checkout_pg_loader').hide();
-                if(response.data && response.data.status === true){
+                if (response.data && response.data.status === true) {
                     $('#order_id_el').val(response.data.data.order_id);
                     const qrCodeBase64 = response.data.data.qr_code;
-                    document.getElementById('qrCode').innerHTML = `${qrCodeBase64}"`;
+                    document.getElementById('qrCode').innerHTML = `${qrCodeBase64}`;
                     $('#pg_amount_text').html($('#pg_amount').val());
                     $('#pg_qr_title').html('Scan QR To Pay');
                 }
             })
             .catch(function (error) {
-                      let msg = 'Failed To Generate QR Code!!';
-                    if (error.response && error.response.data) {
-                        msg = error.response.data.message
-                            || error.response.data.error
-                            || (typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data));
-                    }
-                    $('.shake').hide();
-                    $('#pg_amount_text').html($('#pg_amount').val());
-                    $('#checkout_pg_loader').hide();
-                    document.getElementById('qrCode').innerHTML = `<span class="text-danger fw-bold">${msg}</span>`;
+                let msg = 'Failed To Generate QR Code!!';
+                if (error.response && error.response.data) {
+                    msg = error.response.data.message
+                        || error.response.data.error
+                        || (typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data));
+                }
+                $('.shake').hide();
+                $('#pg_amount_text').html($('#pg_amount').val());
+                $('#checkout_pg_loader').hide();
+                document.getElementById('qrCode').innerHTML = `<span class="text-danger fw-bold">${msg}</span>`;
             });
     }
-    function getLink(){
-        if($('input[name="payment_method"]:checked').data('pg_name') == 'COD'){
-              $('#checkout-form').trigger('submit');
-              return;
+
+    function getLink() {
+        if ($('input[name="payment_method"]:checked').data('pg_name') == 'COD') {
+            $('#checkout-form').trigger('submit');
+            return;
         }
         if ($("#address_name").is(":visible")) {
             let isValid = checkValidation();
-            if(!isValid){
+            if (!isValid) {
                 $('#checkout-form').trigger('submit');
                 return;
             }
@@ -466,12 +531,13 @@
             pg: $('input[name="payment_method"]:checked').data('pg_name')
         };
         let PGName = $('input[name="payment_method"]:checked').data('pg_name');
-        if (PGName == "Razorpay"){
+        if (PGName == "Razorpay") {
             razModel();
             return;
         }
         let $btn = $('#getLinkBtn');
-        let $cBtn = $('#check_payment_status_el');
+        // let $cBtn = $('#check_payment_status_el');
+        let $cBtn = $('#check_payment_status_mb');
         let $loadingIcon = $('#loadingIcon');
         $loadingIcon.show();
         $btn.prop('disabled', true);
@@ -482,35 +548,93 @@
             .then(function (response) {
                 $btn.hide();
                 $cBtn.show();
-                if(response.data && response.data.status === true){
+                if (response.data && response.data.status === true) {
                     $('#order_id_el').val(response.data.data.order_id);
                     window.location.href = response.data.data.link;
                 }
             })
             .catch(function (error) {
-				   let msg = 'Failed To Generate QR Code!!';
-                    if (error.response && error.response.data) {
-                        msg = error.response.data.message
-                            || error.response.data.error
-                            || (typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data));
-                    }
-                    $('#pg_qr_title_4').html(msg);
-			   alert(msg);
+                let msg = 'Failed To Generate QR Code!!';
+                if (error.response && error.response.data) {
+                    msg = error.response.data.message
+                        || error.response.data.error
+                        || (typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data));
+                }
+                $('#pg_qr_title_4').html(msg);
+                alert(msg);
             }).finally(function () {
             $btn.prop('disabled', false);
             $loadingIcon.hide();
         });
     }
-    function checkValidation(){
+
+    $(document).ready(function () {
+        $("#check_payment_status_btn").click(function () {
+            $("#parent-container-id").show();
+            $("#check_payment_status_btn").hide();
+            QrPaymentStatus(1, '#order_id_el', '#submit_date');
+        });
+        $("#check_payment_status_mb").click(function () {
+            $("#parent-container-id-2").show();
+            $("#check_payment_status_mb").hide();
+            $("#qrCode_1").hide();
+            QrPaymentStatus(1, '#order_id_el', '#check_payment_status_el');
+        });
+    });
+
+    function QrPaymentStatus(count = 1, order_id_el, submit_date) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: 'POST', //Method type
+            url: '{{route('paystack.payment.status')}}',
+            data: {transaction_id: $(order_id_el).val()},
+            dataType: 'json',
+            success: function (res) {
+                console.log(res);
+                if (count <= 6) {
+                    if (res.data.payment_status === "Pending") {
+                        internalStatusTimeout = setTimeout(() => {
+                            QrPaymentStatus(count + 1, order_id_el, submit_date);
+                        }, 5000)
+                    } else {
+                        clearTimeout(internalStatusTimeout);
+                        if (res.data.payment_status === "Success") {
+                            clearTimeout(internalStatusTimeout);
+                            $('#checkout-form').trigger('submit');
+                            // $(submit_date).trigger('click');
+                        }
+                    }
+                } else {
+                    clearTimeout(internalStatusTimeout);
+                    $('#checkout-form').trigger('submit');
+                    // $(submit_date).trigger('click');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                var obj = JSON.parse(jqXHR.responseText);
+                if (obj.status === false) {
+                    console.log(obj.message);
+                }
+                $(submit_date).trigger('click');
+            }
+        });
+    }
+
+    function checkValidation() {
         let allFilled = true;
-        $(".check_validation_el").each(function() {
+        $(".check_validation_el").each(function () {
             if ($(this).val() == "" || $(this).hasClass('is-invalid')) {
-                allFilled =  false;
+                allFilled = false;
             }
         });
         return allFilled;
     }
-    function razModel(){
+
+    function razModel() {
         let $cBtn = $('#checkout_pg_loader_raz');
         $cBtn.show();
         let data = {
@@ -521,7 +645,7 @@
         axios.post('{{route('starpaisa.payment.raz')}}', data)
             .then(function (response) {
                 $cBtn.hide();
-                if(response.data && response.data.status === true){
+                if (response.data && response.data.status === true) {
                     const resData = response.data.data;
                     var options = {
                         key: resData.key,
@@ -553,71 +677,102 @@
             background: #fff;
             box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.03);
         }
+
         .width100 {
             width: 100% !important;
         }
+
         .cp1 {
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
         }
+
         .cp2 {
             background: #ffffff;
             border-radius: 10px;
             padding: 15px;
         }
+
         .am h3 {
             font-size: 12px;
             font-weight: normal;
             margin-bottom: 5px;
         }
+
         .am p {
             font-size: 14px;
             font-weight: bold;
             margin-bottom: 0;
         }
+
         .cp4 {
             background: #f8f8f8;
         }
+
         .cp4pad {
             padding: 15px;
         }
+
         .cp4 .cardheadtitle {
             font-size: 14px;
         }
+
         .payqr img {
             width: 125px;
         }
+
         .cp5 {
             background: #ffffff;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
             padding: 15px;
         }
+
         .cp4 .cardheadtitle {
             font-size: 12px;
         }
+
         .payicon {
             margin-bottom: 7px;
         }
+
         .payicon img {
             height: 30px;
             width: 100%;
         }
+
         .text-center {
             text-align: -webkit-center !important;
         }
+
         .cp5 p {
             color: #000;
             opacity: 0.9;
             max-width: 360px;
             margin: auto;
         }
+
+        .payment_btn {
+            background-color: var(--bs-primary);
+            color: rgb(255, 255, 255);
+            padding: 15px;
+            transition: 0.3s ease-in-out;
+        }
+
+        .payment_btn:hover {
+            border: 1px solid var(--bs-primary);
+            color: var(--bs-primary);
+            background: transparent;
+        }
+
         .fs14 {
             font-size: 12px;
         }
+
         .w-45 {
             width: 48%;
         }
+
         .btn1 {
             border-radius: 10px;
             background: #1077ff;
@@ -639,6 +794,7 @@
             font-weight: 700;
             line-height: normal;
         }
+
         .btn2 {
             border-radius: 10px;
             background: #fff;
@@ -660,38 +816,47 @@
             font-weight: 700;
             line-height: normal;
         }
+
         .fticonmain {
             display: flex;
             align-items: center;
             margin-top: 25px;
         }
+
         .fticon img {
             width: 20px;
             height: 20px;
         }
+
         .ftcontent {
             margin-left: 7px;
         }
+
         .ftcontent h5 {
             font-size: 12px;
         }
+
         .ftcontent p,
         .ftcontent h5 {
             margin-bottom: 0;
             color: #9c9c9c;
         }
+
         .ftcontent p {
             font-size: 10px;
         }
+
         .pm {
             display: flex;
             align-items: center;
             justify-content: space-around;
             padding-bottom: 15px;
         }
+
         .pmitem.active {
             border: 1px solid #1077ff;
         }
+
         .pmitem {
             background: white;
             border-radius: 5px;
@@ -699,11 +864,13 @@
             cursor: pointer;
             box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
         }
+
         .pmitem img {
             max-width: 100%;
             height: 40px;
             vertical-align: middle;
         }
+
         .message-container {
             text-align: center;
             padding: 20px;
@@ -712,14 +879,17 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
+
         .message-container h1 {
             color: #333;
             font-size: 24px;
         }
+
         .message-container p {
             color: #666;
             font-size: 18px;
         }
+
         .loader {
             border: 6px solid #f3f3f3;
             border-top: 6px solid #3498db;
@@ -729,18 +899,175 @@
             animation: spin 1s linear infinite;
             margin: 20px auto;
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
+
         input[readonly] {
             background-color: #e9ecef; /* Similar to disabled background */
-            cursor: not-allowed;       /* Change the cursor to indicate it's not editable */
-            opacity: 1;                /* Ensure full opacity */
+            cursor: not-allowed; /* Change the cursor to indicate it's not editable */
+            opacity: 1; /* Ensure full opacity */
         }
 
         input[readonly]:focus {
-            outline: none;             /* Remove focus outline */
+            outline: none; /* Remove focus outline */
+        }
+
+        .parent-container {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 35vh;
+        }
+
+        .payment-loader {
+            width: 150px;
+        }
+
+        .payment-loader .binding {
+            content: '';
+            width: 60px;
+            height: 4px;
+            border: 2px solid #00c4bd;
+            margin: 0 auto;
+        }
+
+        .payment-loader .pad {
+            width: 60px;
+            height: 38px;
+            border-radius: 8px;
+            border: 2px solid #00c4bd;
+            padding: 6px;
+            margin: 0 auto;
+        }
+
+        .payment-loader .chip {
+            width: 12px;
+            height: 8px;
+            background: #00c4bd;
+            border-radius: 3px;
+            margin-top: 4px;
+            margin-left: 3px;
+        }
+
+        .payment-loader .line {
+            width: 52px;
+            margin-top: 6px;
+            margin-left: 3px;
+            height: 4px;
+            background: #00c4bd;
+            border-radius: 100px;
+            opacity: 0;
+            -webkit-animation: writeline 3s infinite ease-in;
+            -moz-animation: writeline 3s infinite ease-in;
+            -o-animation: writeline 3s infinite ease-in;
+            animation: writeline 3s infinite ease-in;
+        }
+
+        .payment-loader .line2 {
+            width: 32px;
+            margin-top: 6px;
+            margin-left: 3px;
+            height: 4px;
+            background: #00c4bd;
+            border-radius: 100px;
+            opacity: 0;
+            -webkit-animation: writeline2 3s infinite ease-in;
+            -moz-animation: writeline2 3s infinite ease-in;
+            -o-animation: writeline2 3s infinite ease-in;
+            animation: writeline2 3s infinite ease-in;
+        }
+
+        .payment-loader .line:first-child {
+            margin-top: 0;
+        }
+
+        .payment-loader .line.line1 {
+            -webkit-animation-delay: 0s;
+            -moz-animation-delay: 0s;
+            -o-animation-delay: 0s;
+            animation-delay: 0s;
+        }
+
+        .payment-loader .line.line2 {
+            -webkit-animation-delay: 0.5s;
+            -moz-animation-delay: 0.5s;
+            -o-animation-delay: 0.5s;
+            animation-delay: 0.5s;
+        }
+
+        .payment-loader .loader-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            line-height: 16px;
+            color: #5f6571;
+            font-weight: bold;
+        }
+
+
+        @keyframes writeline {
+            0% {
+                width: 0px;
+                opacity: 0;
+            }
+            33% {
+                width: 52px;
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes writeline2 {
+            0% {
+                width: 0px;
+                opacity: 0;
+            }
+            33% {
+                width: 32px;
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .shake {
+            display: inline-block;
+            animation: shake 0.8s infinite;
+            font-size: 15px;
+            font-weight: bold;
+            color: #ff0000;
+            margin-top: 5px;
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-1px);
+            }
+            50% {
+                transform: translateX(1px);
+            }
+            75% {
+                transform: translateX(-1px);
+            }
         }
     </style>
 @endpush

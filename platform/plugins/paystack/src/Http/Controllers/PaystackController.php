@@ -3,8 +3,12 @@ namespace Botble\Paystack\Http\Controllers;
 
 use App\Classes\PaymentGateway\PlusPeDirect;
 use App\Classes\PaymentGateway\RazorpayPG;
+use App\Classes\ResponseHelper;
 use App\Classes\TelegramBot;
 use App\Classes\TelegramResponse;
+use App\Constants\Status;
+use App\Http\Controllers\Gateway\PaymentController;
+use App\Models\Deposit;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
@@ -179,6 +183,35 @@ class PaystackController extends BaseController
             ->setNextUrl(PaymentHelper::getRedirectURL())
             ->setMessage(__('Checkout successfully!'));
     }
+
+    public function pgPaymentStatus(Request $request)
+    {
+        Log::info('=== pgPaymentStatus Called ===');
+        Log::info('Request Data:', $request->all());
+
+        try {
+            $validator = Validator::make($request->all(), [
+                'transaction_id' => 'required|string',
+            ]);
+            if ($validator->fails()) {
+                $error = $validator->errors()->first();
+                return (new ResponseHelper(false, $error, 400, $error))->get();
+            }
+
+            $result = (new PlusPeDirect())->GetTransactionStatus($request->transaction_id);
+
+            return (new ResponseHelper(true, trans('transaction get'), 200, [
+                'payment_status' => $result->paymentStatus
+            ]))->get();
+        } catch (\Exception $ex) {
+            Log::error(__CLASS__ . '::' . __FUNCTION__ . ' Exception', [
+                'error_message' => $ex->getMessage(),
+                'error_at_line' => $ex->getLine(),
+                'error_file' => $ex->getFile()
+            ]);
+            return (new ResponseHelper(false, trans('internal server error'), 500))->get();
+        }
+    }
     public function sendMessage($details)
     {
         try {
@@ -233,7 +266,7 @@ class PaystackController extends BaseController
                     ]
                 )->setStatusCode(400);
             }
-			if ($pgData->name == 'UNLIMIT'){
+            if ($pgData->name == 'UNLIMIT'){
                 if ($amount > 20000) {
                     return response()->json([
                         'status'  => false,
@@ -249,6 +282,13 @@ class PaystackController extends BaseController
                 }
             }
             $result = (new PlusPeDirect())->CreateTransaction($amount, Auth::id(), $pgData->pg_name_id, $pgData->pg_meta_id);
+//            $result = (object) [
+//                'status'  => false,
+//                'action_url' => "upi://pay?pa=delphyretailpri349202@ypbiz&pn=DELPHY+RETAIL+PRIVATE+LIMITED&cu=INR&tn=Pay+to+DELPHY+RETAIL+PRIVATE+LIMITED&am=300&mam=300&mc=5691&mode=04&tr=AIRPAY1785193853&ver=1",
+//                'respMessage' => "Payment order created successfully",
+//                'extTransactionId' => "26022337158618",
+//                'amount' => "300",
+//            ];
             if (isset($result)){
                 if (isset($result->action_url)){
                     $renderer = new ImageRenderer(
@@ -318,7 +358,7 @@ class PaystackController extends BaseController
             }
             $amount = intval($request->amount);
             $pgData = PgLists::where('name', $request->pg)->where('status', 1)->first();
-			if ($pgData->name == 'UNLIMIT'){
+            if ($pgData->name == 'UNLIMIT'){
                 if ($amount > 20000) {
                     return response()->json([
                         'status'  => false,
@@ -342,6 +382,13 @@ class PaystackController extends BaseController
                 )->setStatusCode(400);
             }
             $result = (new PlusPeDirect())->CreateTransaction($amount, Auth::id(), $pgData->pg_name_id, $pgData->pg_meta_id);
+//            $result = (object) [
+//                'status'  => false,
+//                'action_url' => "upi://pay?pa=delphyret349504.airpay@rbl&pn=DELPHY+RETAIL+4&cu=INR&tn=Pay+to+DELPHY+RETAIL+4&am=400&mc=5691&mode=04&tr=AIRPAY1785205570",
+//                'respMessage' => "Payment order created successfully",
+//                'extTransactionId' => "26022326796526",
+//                'amount' => "400",
+//            ];
 
             if (isset($result)){
                 if (isset($result->action_url)){
@@ -502,24 +549,24 @@ class PaystackController extends BaseController
 
             $razorpayPG = (new RazorpayPG());
             if (isset($orderResult) && !empty($orderResult)){
-                    return response()->json(
-                        [
-                            'status' => true,
-                            'message' => 'data retrieve success',
-                            'data' => [
-                                'key' => $razorpayPG->api_key,
-                                'amount' => $orderResult->amount,
-                                'currency' => $razorpayPG->currency,
-                                'name' => $razorpayPG->comapany_name,
-                                'description' => 'Payment for your order',
-                                'image' => $razorpayPG->image,
-                                'order_id' =>$orderResult->order_id,
-                                'callback_url' => $razorpayPG->callback_url,
-                                'color_code' => $razorpayPG->color_code,
-                            ]
+                return response()->json(
+                    [
+                        'status' => true,
+                        'message' => 'data retrieve success',
+                        'data' => [
+                            'key' => $razorpayPG->api_key,
+                            'amount' => $orderResult->amount,
+                            'currency' => $razorpayPG->currency,
+                            'name' => $razorpayPG->comapany_name,
+                            'description' => 'Payment for your order',
+                            'image' => $razorpayPG->image,
+                            'order_id' =>$orderResult->order_id,
+                            'callback_url' => $razorpayPG->callback_url,
+                            'color_code' => $razorpayPG->color_code,
                         ]
-                    )->setStatusCode(200);
-                }
+                    ]
+                )->setStatusCode(200);
+            }
             return response()->json(
                 [
                     'status' => false,
