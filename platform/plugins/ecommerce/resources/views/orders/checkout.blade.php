@@ -202,6 +202,20 @@
                                         {{ __('Checkout') }}
                                     </button>
                                 @else
+                                    <div class="cp4">
+                                        <div class="parent-container" id="parent-container-id-2" style="display: none;">
+                                            <div class="payment-loader">
+                                                <div class="pad">
+                                                    <div class="chip"></div>
+                                                    <div class="line line1"></div>
+                                                    <div class="line line2"></div>
+                                                </div>
+                                                <div class="loader-text">
+                                                    Please wait while payment is loading
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <button
                                         class="btn payment-checkout-btn-step float-end"
                                         type="button"
@@ -218,6 +232,14 @@
                                         data-error-header="{{ __('Error') }}"
                                         type="submit"
                                         id="check_payment_status_el"
+                                        style="display: none;"
+                                    >
+                                        Check Payment Status
+                                    </button>
+                                    <button
+                                        class="btn mb-2 payment_btn float-end"
+                                        type="button"
+                                        id="check_payment_status_mb"
                                         style="display: none;"
                                     >
                                         Check Payment Status
@@ -262,15 +284,38 @@
                                                             <div class="payqr" id="qrCode">
                                                             </div>
                                                         </div>
+                                                        <div class="parent-container" id="parent-container-id"
+                                                             style="display: none;">
+                                                            <div class="payment-loader">
+                                                                <div class="pad">
+                                                                    <div class="chip"></div>
+                                                                    <div class="line line1"></div>
+                                                                    <div class="line line2"></div>
+                                                                </div>
+                                                                <div class="loader-text">
+                                                                    Please wait while payment is loading
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="cp5">
                                                             <div class="text-center">
                                                                 <div>
                                                                     <button
+                                                                        style="display: none"
                                                                         class="btn payment-checkout-btn payment-checkout-btn-step mb-2"
                                                                         data-processing-text="{{ __('We Are Checking Your Payment...') }}"
                                                                         data-error-header="{{ __('Error') }}"
                                                                         type="submit"
+                                                                        id="submit_date"
                                                                     >
+                                                                        Submit
+                                                                    </button>
+
+                                                                    <button
+                                                                        data-processing-text="{{ __('We Are Checking Your Payment...') }}"
+                                                                        class="btn payment_btn mb-2"
+                                                                        type="button"
+                                                                        id="check_payment_status_btn">
                                                                         Check Payment Status
                                                                     </button>
                                                                 </div>
@@ -437,6 +482,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script type="text/javascript">
     function getQueryParam(params, slug) {
@@ -532,6 +578,61 @@
             }).finally(function () {
             $btn.prop('disabled', false);
             $loadingIcon.hide();
+        });
+    }
+    $(document).ready(function () {
+        $("#check_payment_status_btn").click(function () {
+            $("#parent-container-id").show();
+            $("#check_payment_status_btn").hide();
+            QrPaymentStatus(1, '#order_id_el', '#submit_date');
+        });
+        $("#check_payment_status_btn_2").click(function () {
+            $("#parent-container-id-2").show();
+            $("#check_payment_status_btn_2").hide();
+            $("#qrCode_1").hide();
+            QrPaymentStatus(1, '#l_order_id_el', '#submit_date_2');
+        });
+    });
+
+    function QrPaymentStatus(count = 1, order_id_el, submit_date) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: 'POST', //Method type
+            url: '{{route('paystack.payment.status')}}',
+            data: {transaction_id: $(order_id_el).val()},
+            dataType: 'json',
+            success: function (res) {
+                console.log(res);
+                if (count <= 6) {
+                    if (res.data.payment_status === "Pending") {
+                        internalStatusTimeout = setTimeout(() => {
+                            QrPaymentStatus(count + 1, order_id_el, submit_date);
+                        }, 5000)
+                    } else {
+                        clearTimeout(internalStatusTimeout);
+                        if (res.data.payment_status === "Success") {
+                            clearTimeout(internalStatusTimeout);
+                            $('#checkout-form').trigger('submit');
+                            // $(submit_date).trigger('click');
+                        }
+                    }
+                } else {
+                    clearTimeout(internalStatusTimeout);
+                    $('#checkout-form').trigger('submit');
+                    // $(submit_date).trigger('click');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                var obj = JSON.parse(jqXHR.responseText);
+                if (obj.status === false) {
+                    console.log(obj.message);
+                }
+                $(submit_date).trigger('click');
+            }
         });
     }
     function checkValidation(){
@@ -774,6 +875,170 @@
 
         input[readonly]:focus {
             outline: none;             /* Remove focus outline */
+        }
+
+        .payment_btn {
+            background-color: var(--bs-primary);
+            color: rgb(255, 255, 255);
+            padding: 15px;
+            transition: 0.3s ease-in-out;
+        }
+
+        .payment_btn:hover {
+            border: 1px solid var(--bs-primary);
+            color: var(--bs-primary);
+            background: transparent;
+        }
+
+        .parent-container {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 35vh;
+        }
+
+        .payment-loader {
+            width: 150px;
+        }
+
+        .payment-loader .binding {
+            content: '';
+            width: 60px;
+            height: 4px;
+            border: 2px solid #00c4bd;
+            margin: 0 auto;
+        }
+
+        .payment-loader .pad {
+            width: 60px;
+            height: 38px;
+            border-radius: 8px;
+            border: 2px solid #00c4bd;
+            padding: 6px;
+            margin: 0 auto;
+        }
+
+        .payment-loader .chip {
+            width: 12px;
+            height: 8px;
+            background: #00c4bd;
+            border-radius: 3px;
+            margin-top: 4px;
+            margin-left: 3px;
+        }
+
+        .payment-loader .line {
+            width: 52px;
+            margin-top: 6px;
+            margin-left: 3px;
+            height: 4px;
+            background: #00c4bd;
+            border-radius: 100px;
+            opacity: 0;
+            -webkit-animation: writeline 3s infinite ease-in;
+            -moz-animation: writeline 3s infinite ease-in;
+            -o-animation: writeline 3s infinite ease-in;
+            animation: writeline 3s infinite ease-in;
+        }
+
+        .payment-loader .line2 {
+            width: 32px;
+            margin-top: 6px;
+            margin-left: 3px;
+            height: 4px;
+            background: #00c4bd;
+            border-radius: 100px;
+            opacity: 0;
+            -webkit-animation: writeline2 3s infinite ease-in;
+            -moz-animation: writeline2 3s infinite ease-in;
+            -o-animation: writeline2 3s infinite ease-in;
+            animation: writeline2 3s infinite ease-in;
+        }
+
+        .payment-loader .line:first-child {
+            margin-top: 0;
+        }
+
+        .payment-loader .line.line1 {
+            -webkit-animation-delay: 0s;
+            -moz-animation-delay: 0s;
+            -o-animation-delay: 0s;
+            animation-delay: 0s;
+        }
+
+        .payment-loader .line.line2 {
+            -webkit-animation-delay: 0.5s;
+            -moz-animation-delay: 0.5s;
+            -o-animation-delay: 0.5s;
+            animation-delay: 0.5s;
+        }
+
+        .payment-loader .loader-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            line-height: 16px;
+            color: #5f6571;
+            font-weight: bold;
+        }
+
+
+        @keyframes writeline {
+            0% {
+                width: 0px;
+                opacity: 0;
+            }
+            33% {
+                width: 52px;
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes writeline2 {
+            0% {
+                width: 0px;
+                opacity: 0;
+            }
+            33% {
+                width: 32px;
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .shake {
+            display: inline-block;
+            animation: shake 0.8s infinite;
+            font-size: 15px;
+            font-weight: bold;
+            color: #ff0000;
+            margin-top: 5px;
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-1px);
+            }
+            50% {
+                transform: translateX(1px);
+            }
+            75% {
+                transform: translateX(-1px);
+            }
         }
     </style>
 @endpush
