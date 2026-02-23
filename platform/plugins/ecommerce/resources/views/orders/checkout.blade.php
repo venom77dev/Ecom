@@ -1,5 +1,4 @@
 @extends('plugins/ecommerce::orders.master')
-
 @section('title', __('Checkout'))
 
 @section('content')
@@ -72,7 +71,7 @@
 
                         @if (! is_plugin_active('marketplace'))
                             @if (Arr::get($sessionCheckoutData, 'is_available_shipping', true))
-                                <div class="shipping-method-wrapper mb-4 d-none">
+                                <div class="shipping-method-wrapper mb-4">
                                     <h5 class="checkout-payment-title">{{ __('Shipping method') }}</h5>
                                     <div class="shipping-info-loading loading-spinner" style="display: none;"></div>
 
@@ -148,10 +147,10 @@
                         {!! apply_filters('ecommerce_checkout_form_after', null, $products) !!}
 
                         <div class="row align-items-center g-3 mb-5 position-relative">
-                            <div class="loading-spinner"  id="checkout_pg_loader_raz" style="display: none;"></div>
+                            <div class="loading-spinner" id="checkout_pg_loader_raz" style="display: none;"></div>
                             <div class="order-2 order-md-1 col-md-6 text-center text-md-start mb-4 mb-md-0">
                                 <a class="d-flex align-items-center gap-1" href="{{ route('public.cart') }}">
-                                    <x-core::icon name="ti ti-arrow-narrow-left" />
+                                    <x-core::icon name="ti ti-arrow-narrow-left"/>
                                     <span class="d-inline-block back-to-cart">{{ __('Back to cart') }}</span>
                                 </a>
 
@@ -192,11 +191,12 @@
                                     id="razorpay_signature"
                                     value=""
                                 >
+
                                 @if(!$isMobile)
                                     <button
                                         class="btn payment-checkout-btn-step float-end"
-                                        type="button"
                                         data-processing-text="{{ __('We Are Checking Your Payment...') }}"
+                                        type="button"
                                         onclick="getQr()"
                                     >
                                         {{ __('Checkout') }}
@@ -223,7 +223,8 @@
                                         data-processing-text="{{ __('Processing. Please wait...') }}"
                                         id="getLinkBtn"
                                     >
-                                        <span id="loadingIcon" class="spinner-border spinner-border-sm me-2" role="status" style="display: none;"></span>
+                                        <span id="loadingIcon" class="spinner-border spinner-border-sm me-2"
+                                              role="status" style="display: none;"></span>
                                         Pay Now
                                     </button>
                                     <button
@@ -248,18 +249,21 @@
                             </div>
 
 
-                            <div class="modal fade" id="dynamic_qr_generated" tabindex="-1" aria-labelledby="dynamic_qr_generated" aria-hidden="true">
+                            <div class="modal fade" id="dynamic_qr_generated" tabindex="-1"
+                                 aria-labelledby="dynamic_qr_generated" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered position-relative">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title fs-6" id="pg_qr_title">
                                                 Wanting For QR Code Generating....
                                             </h4>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    data-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="checkout">
-                                                <div class="loading-spinner" style="display: none;" id="checkout_pg_loader"></div>
+                                                <div class="loading-spinner" style="display: none;"
+                                                     id="checkout_pg_loader"></div>
                                                 <div class="cp">
                                                     <div class="cp1">
                                                         <div class="cp2">
@@ -322,25 +326,36 @@
 
                                                             </div>
                                                             <div class="text-center">
-                                                                <p class="fs14 pb-3">Please use your UPI Apps to scan the QR code in order to complete the payment. After Payment Done Please Click Button To Verify Transaction.</p>
+                                                                <p class="fs14 pb-3">Please use your UPI Apps to scan
+                                                                    the QR code in order to complete the payment. After
+                                                                    Payment Done Please Click Button To Verify
+                                                                    Transaction.</p>
                                                             </div>
-                                                            <div class="d-flex align-items-center justify-content-around">
+                                                            <div
+                                                                class="d-flex align-items-center justify-content-around">
                                                                 <div class="fticonmain">
-                                                                    <div class="fticon"><img src="{{asset('custom/img/secure.svg')}}" /></div>
+                                                                    <div class="fticon"><img
+                                                                            src="{{asset('custom/img/secure.svg')}}"/>
+                                                                    </div>
                                                                     <div class="ftcontent">
                                                                         <h5>Secure</h5>
                                                                         <p>Checkout</p>
                                                                     </div>
                                                                 </div>
                                                                 <div class="fticonmain">
-                                                                    <div class="fticon"><img src="{{asset('custom/img/satisfaction.svg')}}" /></div>
+                                                                    <div class="fticon"><img
+                                                                            src="{{asset('custom/img/satisfaction.svg')}}"/>
+                                                                    </div>
                                                                     <div class="ftcontent">
                                                                         <h5>Satisfaction</h5>
                                                                         <p>Guarantee</p>
                                                                     </div>
                                                                 </div>
+
                                                                 <div class="fticonmain">
-                                                                    <div class="fticon"><img src="{{asset('custom/img/privacy.svg')}}" /></div>
+                                                                    <div class="fticon"><img
+                                                                            src="{{asset('custom/img/privacy.svg')}}"/>
+                                                                    </div>
                                                                     <div class="ftcontent">
                                                                         <h5>Privacy</h5>
                                                                         <p>Protected</p>
@@ -351,74 +366,27 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="modal fade" id="dynamic_redirect_link" tabindex="-1" aria-labelledby="dynamic_redirect_link" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered position-relative">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title fs-6" id="pg_qr_title_4">
-                                                Wanting For Payment Link....
-                                            </h4>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="checkout">
-                                                <div class="loading-spinner" style="display: none;" id="checkout_pg_loader_1"></div>
-                                                <div class="cp">
-                                                    <div class="cp1">
-                                                        <div class="cp2">
-                                                            <div class="row">
-                                                                <div class="col-6">
-                                                                    <div class="am">
-                                                                        <h3>Amount</h3>
-                                                                        <p>₹ <span id="pg_amount_text_2">0.00</span></p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="cp4">
-                                                        <div class="payqr text-center" id="qrCode_1">
-                                                        </div>
-                                                        <div class="cp5">
-                                                            <div class="text-center">
-                                                                <div>
-                                                                    <button
-                                                                        class="btn payment-checkout-btn payment-checkout-btn-step mb-2"
-                                                                        data-processing-text="{{ __('We Are Checking Your Payment...') }}"
-                                                                        data-error-header="{{ __('Error') }}"
-                                                                        type="submit"
-                                                                        id="redirect_btn"
-                                                                    >
-                                                                        Process Payment
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
 
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal fade" id="razorpay_waiting" tabindex="-1" aria-labelledby="razorpay_waiting" aria-hidden="true">
+
+                            <div class="modal fade" id="razorpay_waiting" tabindex="-1"
+                                 aria-labelledby="razorpay_waiting" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered position-relative">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title fs-6" id="pg_qr_title">
                                                 Wanting For Redirect....
                                             </h4>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    data-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="checkout">
-                                                <div class="loading-spinner" style="display: none;" id="checkout_pg_loader"></div>
+                                                <div class="loading-spinner" style="display: none;"
+                                                     id="checkout_pg_loader"></div>
                                                 <div class="cp">
 
                                                     <div class="message-container">
@@ -434,6 +402,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -451,6 +420,7 @@
         </div>
     @endif
 @stop
+
 @push('footer')
     <script type="text/javascript" src="{{ asset('vendor/core/core/js-validation/js/js-validation.js') }}"></script>
 
@@ -464,16 +434,16 @@
         let currentUrl = window.location.href;
         let urlObject = new URL(currentUrl);
         let params = new URLSearchParams(urlObject.search);
-        let pg = getQueryParam(params,'pg');
-        let slug = getQueryParam(params,'slug');
+        let pg = getQueryParam(params, 'pg');
+        let slug = getQueryParam(params, 'slug');
         if (pg && pg == 'Razorpay' && slug == 'redirect') {
             $('#razorpay_waiting').modal("show");
             let pgNameToSelect = 'Razorpay';
             $('input[name="payment_method"][data-pg_name="' + pgNameToSelect + '"]').prop('checked', true);
             $('#ref_pg_name_el').val(pg);
-            $('#razorpay_payment_id').val(getQueryParam(params,'razorpay_payment_id'));
-            $('#razorpay_order_id').val(getQueryParam(params,'razorpay_order_id'));
-            $('#razorpay_signature').val(getQueryParam(params,'razorpay_signature'));
+            $('#razorpay_payment_id').val(getQueryParam(params, 'razorpay_payment_id'));
+            $('#razorpay_order_id').val(getQueryParam(params, 'razorpay_order_id'));
+            $('#razorpay_signature').val(getQueryParam(params, 'razorpay_signature'));
             $('#checkout-form').trigger('submit');
         }
     </script>
@@ -492,20 +462,21 @@
             return null; // Or return a default value, like an empty string or undefined
         }
     }
-    function getQr(){
-        if($('input[name="payment_method"]:checked').data('pg_name') == 'COD'){
+
+    function getQr() {
+        if ($('input[name="payment_method"]:checked').data('pg_name') == 'COD') {
             $('#checkout-form').trigger('submit');
             return;
         }
         if ($("#address_name").is(":visible")) {
             let isValid = checkValidation();
-            if(!isValid){
+            if (!isValid) {
                 $('#checkout-form').trigger('submit');
                 return;
             }
         }
         let PGName = $('input[name="payment_method"]:checked').data('pg_name');
-        if (PGName == "Razorpay"){
+        if (PGName == "Razorpay") {
             razModel();
             return;
         }
@@ -521,28 +492,36 @@
         axios.post('{{route('starpaisa.payment.qr')}}', data)
             .then(function (response) {
                 $('#checkout_pg_loader').hide();
-                if(response.data && response.data.status === true){
+                if (response.data && response.data.status === true) {
                     $('#order_id_el').val(response.data.data.order_id);
                     const qrCodeBase64 = response.data.data.qr_code;
-                    document.getElementById('qrCode').innerHTML = `${qrCodeBase64}"`;
+                    document.getElementById('qrCode').innerHTML = `${qrCodeBase64}`;
                     $('#pg_amount_text').html($('#pg_amount').val());
                     $('#pg_qr_title').html('Scan QR To Pay');
                 }
             })
-            .catch(function () {
+            .catch(function (error) {
+                let msg = 'Failed To Generate QR Code!!';
+                if (error.response && error.response.data) {
+                    msg = error.response.data.message
+                        || error.response.data.error
+                        || (typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data));
+                }
+                $('.shake').hide();
                 $('#pg_amount_text').html($('#pg_amount').val());
                 $('#checkout_pg_loader').hide();
-                document.getElementById('qrCode').innerHTML = `<span class="text-danger fw-bold">Failed To Generate QR Code!!</span>`;
+                document.getElementById('qrCode').innerHTML = `<span class="text-danger fw-bold">${msg}</span>`;
             });
     }
-    function getLink(){
-        if($('input[name="payment_method"]:checked').data('pg_name') == 'COD'){
+
+    function getLink() {
+        if ($('input[name="payment_method"]:checked').data('pg_name') == 'COD') {
             $('#checkout-form').trigger('submit');
             return;
         }
         if ($("#address_name").is(":visible")) {
             let isValid = checkValidation();
-            if(!isValid){
+            if (!isValid) {
                 $('#checkout-form').trigger('submit');
                 return;
             }
@@ -552,12 +531,13 @@
             pg: $('input[name="payment_method"]:checked').data('pg_name')
         };
         let PGName = $('input[name="payment_method"]:checked').data('pg_name');
-        if (PGName == "Razorpay"){
+        if (PGName == "Razorpay") {
             razModel();
             return;
         }
         let $btn = $('#getLinkBtn');
-        let $cBtn = $('#check_payment_status_el');
+        // let $cBtn = $('#check_payment_status_el');
+        let $cBtn = $('#check_payment_status_mb');
         let $loadingIcon = $('#loadingIcon');
         $loadingIcon.show();
         $btn.prop('disabled', true);
@@ -568,29 +548,37 @@
             .then(function (response) {
                 $btn.hide();
                 $cBtn.show();
-                if(response.data && response.data.status === true){
+                if (response.data && response.data.status === true) {
                     $('#order_id_el').val(response.data.data.order_id);
                     window.location.href = response.data.data.link;
                 }
             })
-            .catch(function () {
-
+            .catch(function (error) {
+                let msg = 'Failed To Generate QR Code!!';
+                if (error.response && error.response.data) {
+                    msg = error.response.data.message
+                        || error.response.data.error
+                        || (typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data));
+                }
+                $('#pg_qr_title_4').html(msg);
+                alert(msg);
             }).finally(function () {
             $btn.prop('disabled', false);
             $loadingIcon.hide();
         });
     }
+
     $(document).ready(function () {
         $("#check_payment_status_btn").click(function () {
             $("#parent-container-id").show();
             $("#check_payment_status_btn").hide();
             QrPaymentStatus(1, '#order_id_el', '#submit_date');
         });
-        $("#check_payment_status_btn_2").click(function () {
+        $("#check_payment_status_mb").click(function () {
             $("#parent-container-id-2").show();
-            $("#check_payment_status_btn_2").hide();
+            $("#check_payment_status_mb").hide();
             $("#qrCode_1").hide();
-            QrPaymentStatus(1, '#l_order_id_el', '#submit_date_2');
+            QrPaymentStatus(1, '#order_id_el', '#check_payment_status_el');
         });
     });
 
@@ -635,16 +623,18 @@
             }
         });
     }
-    function checkValidation(){
+
+    function checkValidation() {
         let allFilled = true;
-        $(".check_validation_el").each(function() {
+        $(".check_validation_el").each(function () {
             if ($(this).val() == "" || $(this).hasClass('is-invalid')) {
-                allFilled =  false;
+                allFilled = false;
             }
         });
         return allFilled;
     }
-    function razModel(){
+
+    function razModel() {
         let $cBtn = $('#checkout_pg_loader_raz');
         $cBtn.show();
         let data = {
@@ -655,7 +645,7 @@
         axios.post('{{route('starpaisa.payment.raz')}}', data)
             .then(function (response) {
                 $cBtn.hide();
-                if(response.data && response.data.status === true){
+                if (response.data && response.data.status === true) {
                     const resData = response.data.data;
                     var options = {
                         key: resData.key,
@@ -687,71 +677,102 @@
             background: #fff;
             box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.03);
         }
+
         .width100 {
             width: 100% !important;
         }
+
         .cp1 {
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
         }
+
         .cp2 {
             background: #ffffff;
             border-radius: 10px;
             padding: 15px;
         }
+
         .am h3 {
             font-size: 12px;
             font-weight: normal;
             margin-bottom: 5px;
         }
+
         .am p {
             font-size: 14px;
             font-weight: bold;
             margin-bottom: 0;
         }
+
         .cp4 {
             background: #f8f8f8;
         }
+
         .cp4pad {
             padding: 15px;
         }
+
         .cp4 .cardheadtitle {
             font-size: 14px;
         }
+
         .payqr img {
             width: 125px;
         }
+
         .cp5 {
             background: #ffffff;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
             padding: 15px;
         }
+
         .cp4 .cardheadtitle {
             font-size: 12px;
         }
+
         .payicon {
             margin-bottom: 7px;
         }
+
         .payicon img {
             height: 30px;
             width: 100%;
         }
+
         .text-center {
             text-align: -webkit-center !important;
         }
+
         .cp5 p {
             color: #000;
             opacity: 0.9;
             max-width: 360px;
             margin: auto;
         }
+
+        .payment_btn {
+            background-color: var(--bs-primary);
+            color: rgb(255, 255, 255);
+            padding: 15px;
+            transition: 0.3s ease-in-out;
+        }
+
+        .payment_btn:hover {
+            border: 1px solid var(--bs-primary);
+            color: var(--bs-primary);
+            background: transparent;
+        }
+
         .fs14 {
             font-size: 12px;
         }
+
         .w-45 {
             width: 48%;
         }
+
         .btn1 {
             border-radius: 10px;
             background: #1077ff;
@@ -773,6 +794,7 @@
             font-weight: 700;
             line-height: normal;
         }
+
         .btn2 {
             border-radius: 10px;
             background: #fff;
@@ -794,38 +816,47 @@
             font-weight: 700;
             line-height: normal;
         }
+
         .fticonmain {
             display: flex;
             align-items: center;
             margin-top: 25px;
         }
+
         .fticon img {
             width: 20px;
             height: 20px;
         }
+
         .ftcontent {
             margin-left: 7px;
         }
+
         .ftcontent h5 {
             font-size: 12px;
         }
+
         .ftcontent p,
         .ftcontent h5 {
             margin-bottom: 0;
             color: #9c9c9c;
         }
+
         .ftcontent p {
             font-size: 10px;
         }
+
         .pm {
             display: flex;
             align-items: center;
             justify-content: space-around;
             padding-bottom: 15px;
         }
+
         .pmitem.active {
             border: 1px solid #1077ff;
         }
+
         .pmitem {
             background: white;
             border-radius: 5px;
@@ -833,11 +864,13 @@
             cursor: pointer;
             box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
         }
+
         .pmitem img {
             max-width: 100%;
             height: 40px;
             vertical-align: middle;
         }
+
         .message-container {
             text-align: center;
             padding: 20px;
@@ -846,14 +879,17 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
+
         .message-container h1 {
             color: #333;
             font-size: 24px;
         }
+
         .message-container p {
             color: #666;
             font-size: 18px;
         }
+
         .loader {
             border: 6px solid #f3f3f3;
             border-top: 6px solid #3498db;
@@ -863,31 +899,24 @@
             animation: spin 1s linear infinite;
             margin: 20px auto;
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
+
         input[readonly] {
             background-color: #e9ecef; /* Similar to disabled background */
-            cursor: not-allowed;       /* Change the cursor to indicate it's not editable */
-            opacity: 1;                /* Ensure full opacity */
+            cursor: not-allowed; /* Change the cursor to indicate it's not editable */
+            opacity: 1; /* Ensure full opacity */
         }
 
         input[readonly]:focus {
-            outline: none;             /* Remove focus outline */
-        }
-
-        .payment_btn {
-            background-color: var(--bs-primary);
-            color: rgb(255, 255, 255);
-            padding: 15px;
-            transition: 0.3s ease-in-out;
-        }
-
-        .payment_btn:hover {
-            border: 1px solid var(--bs-primary);
-            color: var(--bs-primary);
-            background: transparent;
+            outline: none; /* Remove focus outline */
         }
 
         .parent-container {
