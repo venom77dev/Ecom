@@ -581,7 +581,7 @@
             QrPaymentStatus(1, '#order_id_el', '#check_payment_status_el');
         });
     });
-
+    let internalStatusTimeout = null;
     function QrPaymentStatus(count = 1, order_id_el, submit_date) {
         $.ajaxSetup({
             headers: {
@@ -594,7 +594,6 @@
             data: {transaction_id: $(order_id_el).val()},
             dataType: 'json',
             success: function (res) {
-                console.log(res);
                 if (count <= 6) {
                     if (res.data.payment_status === "Pending") {
                         internalStatusTimeout = setTimeout(() => {
