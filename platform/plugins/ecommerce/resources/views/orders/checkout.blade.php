@@ -581,7 +581,7 @@
             QrPaymentStatus(1, '#order_id_el', '#check_payment_status_el');
         });
     });
-
+    let internalStatusTimeout = null;
     function QrPaymentStatus(count = 1, order_id_el, submit_date) {
         $.ajaxSetup({
             headers: {
