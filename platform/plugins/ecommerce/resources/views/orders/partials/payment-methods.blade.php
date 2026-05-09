@@ -21,14 +21,14 @@
             <p> '.$item->description.'</p>
                 </div>
                 <div class="payment-method-logo">
-                <img src="/custom/'.$item->slug.'.png" loading="lazy">
+
             </div>
         </li>
             ';
             }
         }
     @endphp
-
+{{--    <img src="/custom/'.$item->slug.'.png" loading="lazy">--}}
     <input
         name="currency"
         type="hidden"
