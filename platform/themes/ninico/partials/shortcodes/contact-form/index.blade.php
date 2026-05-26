@@ -10,7 +10,7 @@
                                 <li>
                                     <i class="fal fa-map-marker-alt"></i>
                                     <a href="https://maps.google.com/maps?q={{ addslashes($address) }}" target="_blank"><img
-                                            src="/storage/ftpl1.png" alt="">{{ $address }}</a>
+                                            src="/storage/general/company.png" alt="">{{ $address }}</a>
                                 </li>
                             @endif
                             @if($phone = $shortcode->phone)
