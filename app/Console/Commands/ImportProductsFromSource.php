@@ -11,7 +11,7 @@ class ImportProductsFromSource extends Command
     protected $description = 'Import products with all related data from source database (price 300-900) to target database';
 
     protected $sourceDb = [
-        'host' => '127.0.0.1',
+        'host' => '116.202.152.43',
         'port' => 3306,
         'database' => 'dazzlenook',
         'username' => 'dazzlenook',
