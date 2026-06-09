@@ -13,7 +13,7 @@ class ImportProductsFromSource extends Command
     protected $sourceDb = [
         'host' => '116.202.152.43',
         'port' => 3306,
-        'database' => 'db_dazzlenook',
+        'database' => 'dazzlenook',
         'username' => 'dazzlenook',
         'password' => '4qAnkFWg7qx$8?as',
     ];
