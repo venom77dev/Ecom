@@ -205,7 +205,7 @@ class ImportProductsFromSource extends Command
                     allow_checkout_when_out_of_stock, with_storehouse_management, is_featured,
                     brand_id, is_variation, sale_type, price, sale_price, start_date, end_date,
                     length, wide, height, weight, tax_id, views, created_at, updated_at,
-                    stock_status, store_id, created_by_id, created_by_type, approved_by, image,
+                    stock_status, created_by_id, created_by_type, image,
                     product_type, barcode, cost_per_item, generate_license_code,
                     minimum_order_quantity, maximum_order_quantity
                 ) VALUES (
@@ -213,7 +213,7 @@ class ImportProductsFromSource extends Command
                     ?, ?, ?,
                     ?, ?, ?, ?, ?, ?, ?,
                     ?, ?, ?, ?, ?, ?, ?, ?,
-                    'in_stock', NULL, 1, 'Botble\\ACL\\Models\\User', 1, ?,
+                    'in_stock', 1, 'Botble\\ACL\\Models\\User', ?,
                     'physical', ?, ?, ?,
                     ?, ?
                 )
