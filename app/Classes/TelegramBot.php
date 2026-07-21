@@ -51,7 +51,7 @@ Date: *{$data->date}*
                     ]
                 ],
             ];
-           Http::post("https://api.telegram.org/bot{$this->telegramToken}/sendMessage", $params);
+            Http::post("https://api.telegram.org/bot{$this->telegramToken}/sendMessage", $params);
            Log::channel('telegram_bot')->info('Message Send Success', ['chat_id' => $chatId, 'Slug' => 'Order Create', 'Order Id' => $data->order_id]);
         }catch (\Exception $ex){
             Log::error(__CLASS__ . '::' . __FUNCTION__ . ' Query Exception', [
@@ -81,6 +81,7 @@ Date: *{$data->date}*
             ]);
         }
     }
+
     public function getUpdates()
     {
         try {
@@ -95,26 +96,13 @@ Date: *{$data->date}*
                     $chatId = $update['message']['chat']['id'] ?? null;
                     $messageText = $update['message']['text'] ?? null;
 
-                    // Check if the message starts with "/start" and contains the token
-                    if (isset($chatId) && !empty($chatId) && strpos($messageText, "/start") === 0) {
-                        // Extract the token from the message
-                        $tokenParts = explode('=', $messageText);
-                        if (count($tokenParts) > 1) {
-                            $receivedToken = trim($tokenParts[1]); // Get the token part after '='
-
-                            // Validate the received token
-                            if ($receivedToken == $this->trustedToken) {
-                                // Check if chatId already exists in the database
-                                $checkIds = DB::table('tbl_telegram_bot_ids')->where('chat_id', $chatId)->exists();
-                                if (!$checkIds) {
-                                    DB::table('tbl_telegram_bot_ids')->insert([
-                                        'chat_id' => $chatId,
-                                    ]);
-                                }
-                            }
+                    if (!empty($chatId) && is_string($messageText) && strpos($messageText, '/start') === 0) {
+                        $exists = DB::table('tbl_telegram_bot_ids')->where('chat_id', $chatId)->exists();
+                        if (!$exists) {
+                            DB::table('tbl_telegram_bot_ids')->insert(['chat_id' => $chatId]);
                         }
                     }
-                    cache()->put('telegram_last_update_id', $updateId);
+                    cache()->put('telegram_last_update_id'.$this->version, $updateId);
                 }
             }
         }catch (\Exception $ex){
