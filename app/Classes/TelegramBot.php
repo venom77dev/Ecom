@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 class TelegramBot
 {
 
-    private $telegramToken = '7253342685:AAETCdw6obnQMSnJi6arvsi2aw74f8LwWNs';
+    private $telegramToken = '8988461907:AAHNnBUE15FiLzHGJociXbot-hrSkfb2vuA';
     private $blockChatIds = [];
     private $version = 'V1';
     private $trustedToken = 'JF0wqCIWynrQOdTgv2wY12';
