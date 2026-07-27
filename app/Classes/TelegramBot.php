@@ -9,10 +9,16 @@ use Illuminate\Support\Facades\Log;
 class TelegramBot
 {
 
-    private $telegramToken = '8988461907:AAHNnBUE15FiLzHGJociXbot-hrSkfb2vuA';
+    private $telegramToken;
     private $blockChatIds = [];
     private $version = 'V1';
-    private $trustedToken = 'JF0wqCIWynrQOdTgv2wY12';
+    private $trustedToken;
+
+    public function __construct()
+    {
+        $this->telegramToken = env('TELEGRAM_BOT_TOKEN');
+        $this->trustedToken = env('TELEGRAM_TRUSTED_TOKEN');
+    }
 
     public function sendMessage($chatId, $data)
     {
@@ -52,7 +58,7 @@ Date: *{$data->date}*
                 ],
             ];
             Http::post("https://api.telegram.org/bot{$this->telegramToken}/sendMessage", $params);
-           Log::channel('telegram_bot')->info('Message Send Success', ['chat_id' => $chatId, 'Slug' => 'Order Create', 'Order Id' => $data->order_id]);
+            Log::channel('telegram_bot')->info('Message Send Success', ['chat_id' => $chatId, 'Slug' => 'Order Create', 'Order Id' => $data->order_id]);
         }catch (\Exception $ex){
             Log::error(__CLASS__ . '::' . __FUNCTION__ . ' Query Exception', [
                 'error_message' => $ex->getMessage(),
