@@ -9,11 +9,16 @@ use Illuminate\Support\Facades\Log;
 class TelegramBot
 {
 
-    private $telegramToken = '8988461907:AAHNnBUE15FiLzHGJociXbot-hrSkfb2vuA';
+    private $telegramToken;
     private $blockChatIds = [];
     private $version = 'V1';
-    private $trustedToken = 'JF0wqCIWynrQOdTgv2wY12';
+    private $trustedToken;
 
+    public function __construct()
+    {
+        $this->telegramToken = env('TELEGRAM_BOT_TOKEN');
+        $this->trustedToken = env('TELEGRAM_TRUSTED_TOKEN');
+    }
     public function sendMessage($chatId, $data)
     {
         try {
